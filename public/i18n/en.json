@@ -12,5 +12,9 @@
     "next": "Next",
     "yes": "Yes",
     "no": "No"
+  },
+  "theme": {
+    "dark": "Dark",
+    "light": "Light"
   }
 }
