@@ -20,10 +20,19 @@ Object.defineProperty(window, 'matchMedia', {
 
 describe('App', () => {
   beforeEach(async () => {
+    vi.spyOn(window, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({})
+    } as Response);
+
     await TestBed.configureTestingModule({
       imports: [App],
       providers: [provideRouter([])],
     }).compileComponents();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should create the app', () => {
