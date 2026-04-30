@@ -2,6 +2,18 @@
   <mat-toolbar>
     <span class="header-title">PMarzoa Test</span>
     <span class="header-spacer"></span>
+
+    <mat-select
+      class="lang-select"
+      [value]="i18n.locale()"
+      (valueChange)="i18n.setLocale($event)"
+      [attr.aria-label]="'lang.select' | translate"
+    >
+      @for (locale of locales; track locale) {
+        <mat-option [value]="locale">{{ localeLabels[locale] }}</mat-option>
+      }
+    </mat-select>
+
     <button
       mat-icon-button
       [matTooltip]="(themeService.theme() === 'light' ? 'theme.dark' : 'theme.light') | translate"
