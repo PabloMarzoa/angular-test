@@ -1,0 +1,14 @@
+<section class="header">
+  <mat-toolbar>
+    <span class="header-title">PMarzoa Test</span>
+    <span class="header-spacer"></span>
+    <button
+      mat-icon-button
+      (click)="themeService.toggle()"
+      [attr.aria-label]="themeService.theme() === 'light' ? 'Switch to dark mode' : 'Switch to light mode'"
+      [attr.aria-pressed]="themeService.theme() === 'dark'"
+    >
+      <mat-icon>{{ themeService.theme() === 'light' ? 'dark_mode' : 'light_mode' }}</mat-icon>
+    </button>
+  </mat-toolbar>
+</section>
