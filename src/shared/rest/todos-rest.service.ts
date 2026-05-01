@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import type { TodosItem } from '../models/todos';
-import { delay, finalize, timer, type Observable } from 'rxjs';
+import type { FilterValue } from '../../components/filter/filter.model';
+import { delay, finalize, type Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TodosRestService {
@@ -14,13 +15,26 @@ export class TodosRestService {
   public readonly pageSize = signal<number>(10);
   public readonly pageIndex = signal<number>(0);
   public readonly pageSizeOptions = signal<number[]>([10, 20, 30]);
+  private readonly filter = signal<FilterValue>({ userId: null, title: '' });
 
   public loadTodos(): void {
     this.isLoading.set(true);
     const startIndex = this.pageIndex() * this.pageSize();
-    const limit = this.pageSize();
+    const { userId, title } = this.filter();
+
+    let params = new HttpParams()
+      .set('_limit', this.pageSize())
+      .set('_start', startIndex);
+
+    if (userId !== null) {
+      params = params.set('userId', userId);
+    }
+    if (title.trim()) {
+      params = params.set('title_like', title.trim());
+    }
+
     this.httpClient
-      .get<TodosItem[]>(`${this.API}/todos?_limit=${limit}&_start=${startIndex}`)
+      .get<TodosItem[]>(`${this.API}/todos`, { params })
       .pipe(
         delay(500),
         finalize(() => this.isLoading.set(false)),
@@ -31,6 +45,12 @@ export class TodosRestService {
   public updatePagination(pageIndex: number, pageSize: number): void {
     this.pageIndex.set(pageIndex);
     this.pageSize.set(pageSize);
+    this.loadTodos();
+  }
+
+  public updateFilter(value: FilterValue): void {
+    this.pageIndex.set(0); // Reset to first page on filter change
+    this.filter.set(value);
     this.loadTodos();
   }
 

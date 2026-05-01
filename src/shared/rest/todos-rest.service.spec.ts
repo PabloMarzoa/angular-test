@@ -77,4 +77,53 @@ describe('TodosRestService', () => {
     expect(req.request.method).toBe('DELETE');
     req.flush(null);
   });
+
+  it('should apply userId filter as query param', () => {
+    service.updateFilter({ userId: 2, title: '' });
+
+    const req = httpTestingController.expectOne((r) =>
+      r.url === 'https://jsonplaceholder.typicode.com/todos' &&
+      r.params.get('userId') === '2' &&
+      !r.params.has('title_like'),
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush([]);
+    expect(service.pageIndex()).toBe(0);
+  });
+
+  it('should apply title filter as title_like query param', () => {
+    service.updateFilter({ userId: null, title: 'angular' });
+
+    const req = httpTestingController.expectOne((r) =>
+      r.url === 'https://jsonplaceholder.typicode.com/todos' &&
+      r.params.get('title_like') === 'angular' &&
+      !r.params.has('userId'),
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush([]);
+  });
+
+  it('should apply both userId and title filters together', () => {
+    service.updateFilter({ userId: 3, title: 'test' });
+
+    const req = httpTestingController.expectOne((r) =>
+      r.url === 'https://jsonplaceholder.typicode.com/todos' &&
+      r.params.get('userId') === '3' &&
+      r.params.get('title_like') === 'test',
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush([]);
+  });
+
+  it('should not include userId or title_like when filter is empty', () => {
+    service.loadTodos();
+
+    const req = httpTestingController.expectOne((r) =>
+      r.url === 'https://jsonplaceholder.typicode.com/todos' &&
+      !r.params.has('userId') &&
+      !r.params.has('title_like'),
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush([]);
+  });
 });

@@ -47,7 +47,7 @@ export class Dashboard implements OnInit {
   }
 
   protected onFilterChanged(value: FilterValue): void {
-    console.log('filter changed', value);
+    this.todosRestService.updateFilter(value);
   }
 
   protected editTodo(todo: TodosItem): void {
