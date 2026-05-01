@@ -1,14 +1,41 @@
+@if (isLoading()) {
+  <section class="list-loader">
+<mat-spinner></mat-spinner>
+  </section>
+} @else {
+  <section>
+    <mat-list #todosList>
+      @for (todo of todos(); track todo.id; let odd = $odd) {
+        <mat-list-item [class.odd-row]="odd">
+          @if (todo.completed) {
+            <mat-icon matListItemIcon class="list-status-icon">check</mat-icon>
+          } @else {
+            <mat-icon matListItemIcon class="list-status-icon">close</mat-icon>
+          }
+          <span matListItemTitle>{{ 'todos.userId' | translate }}: {{ todo.userId }}</span>
+          <span matListItemLine>{{ todo.title }}</span>
+
+          <div matListItemMeta class="item-actions">
+            <mat-icon class="action edit-icon" aria-label="Edit todo" (click)="editTodo(todo)"
+              >edit</mat-icon
+            >
+            <mat-icon class="action delete-icon" aria-label="Delete todo" (click)="deleteTodo(todo)"
+              >delete</mat-icon
+            >
+          </div>
+        </mat-list-item>
+      }
+    </mat-list>
+  </section>
+}
 <section>
-  <mat-list #todosList>
-    @for (todo of todos(); track todo.id) {
-      <mat-list-item>
-        @if (todo.completed) {
-          <mat-icon>check</mat-icon>
-        } @else {
-          <mat-icon>close</mat-icon>
-        }
-        <span>{{ todo.title }}</span>
-      </mat-list-item>
-    }
-  </mat-list>
+  <mat-paginator
+    [disabled]="isLoading()"
+    [length]="length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    aria-label="Select page"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
 </section>

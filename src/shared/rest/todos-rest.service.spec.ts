@@ -10,11 +10,7 @@ describe('TodosRestService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        TodosRestService,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [TodosRestService, provideHttpClient(), provideHttpClientTesting()],
     });
     service = TestBed.inject(TodosRestService);
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -24,18 +20,22 @@ describe('TodosRestService', () => {
     httpTestingController.verify();
   });
 
-  it('should get all todos', () => {
-    const mockTodos: TodosItem[] = [
-      { id: 1, userId: 1, title: 'Test 1', completed: false },
-    ];
+  it('should get all todos and update the signal', () => {
+    vi.useFakeTimers();
+    const mockTodos: TodosItem[] = [{ id: 1, userId: 1, title: 'Test 1', completed: false }];
 
-    service.getTodos().subscribe((todos) => {
-      expect(todos).toEqual(mockTodos);
-    });
+    service.loadTodos();
 
-    const req = httpTestingController.expectOne('https://jsonplaceholder.typicode.com/todos');
+    const req = httpTestingController.expectOne(
+      'https://jsonplaceholder.typicode.com/todos?_limit=10&_start=0',
+    );
     expect(req.request.method).toBe('GET');
     req.flush(mockTodos);
+
+    vi.advanceTimersByTime(500); // Avanzar el tiempo virtual para superar el delay(500)
+
+    expect(service.todos()).toEqual(mockTodos);
+    vi.useRealTimers();
   });
 
   it('should get a single todo by id', () => {

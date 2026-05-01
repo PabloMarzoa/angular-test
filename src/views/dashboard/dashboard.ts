@@ -1,38 +1,59 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { TodosRestService } from '../../shared/rest/todos-rest.service';
 import type { TodosItem } from '../../shared/models/todos';
-import { take } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '../../shared/i18n/pipes/translate.pipe';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatListModule, MatIcon],
+  imports: [MatListModule, MatIcon, TranslatePipe, MatPaginatorModule, MatProgressSpinnerModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Dashboard implements OnInit {
   private readonly todosRestService = inject(TodosRestService);
-  protected readonly todos = signal<TodosItem[]>([]);
-  protected readonly typesOfShoes: string[] = [
-    'Boots',
-    'Clogs',
-    'Loafers',
-    'Moccasins',
-    'Sneakers',
-  ];
+  protected readonly todos = this.todosRestService.todos;
+  protected readonly isLoading = this.todosRestService.isLoading;
 
   ngOnInit(): void {
-    this.getTodos();
+    this.todosRestService.loadTodos();
   }
 
-  private getTodos(): void {
+  get length(): number {
+    return this.todosRestService.length();
+  }
+
+  get pageSize(): number {
+    return this.todosRestService.pageSize();
+  }
+
+  get pageIndex(): number {
+    return this.todosRestService.pageIndex();
+  }
+
+  get pageSizeOptions(): number[] {
+    return this.todosRestService.pageSizeOptions();
+  }
+
+  protected onPageChange(event: PageEvent): void {
+    this.todosRestService.updatePagination(event.pageIndex, event.pageSize);
+  }
+
+  protected editTodo(todo: TodosItem): void {
+    console.log('edit', todo);
+  }
+
+  protected deleteTodo(todo: TodosItem): void {
     this.todosRestService
-      .getTodos()
+      .deleteTodo(todo.id)
       .pipe(take(1))
-      .subscribe((todos) => {
-        this.todos.set(todos);
+      .subscribe(() => {
+        this.todosRestService.loadTodos();
       });
   }
 }
