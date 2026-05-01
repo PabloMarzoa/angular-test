@@ -49,4 +49,32 @@ describe('TodosRestService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(mockTodo);
   });
+
+  it('should update pagination and load todos', () => {
+    vi.useFakeTimers();
+    const mockTodos: TodosItem[] = [{ id: 2, userId: 1, title: 'Test 2', completed: true }];
+    
+    service.updatePagination(1, 20);
+    
+    expect(service.pageIndex()).toBe(1);
+    expect(service.pageSize()).toBe(20);
+    
+    const req = httpTestingController.expectOne(
+      'https://jsonplaceholder.typicode.com/todos?_limit=20&_start=20',
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush(mockTodos);
+    
+    vi.advanceTimersByTime(500);
+    expect(service.todos()).toEqual(mockTodos);
+    vi.useRealTimers();
+  });
+
+  it('should delete a todo', () => {
+    service.deleteTodo(1).subscribe();
+    
+    const req = httpTestingController.expectOne('https://jsonplaceholder.typicode.com/todos/1');
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null);
+  });
 });
