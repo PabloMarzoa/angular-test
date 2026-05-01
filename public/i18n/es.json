@@ -1,6 +1,6 @@
 {
   "common": {
-    "loading": "Cargando...",
+    "confirmDelete": "¿Estás seguro de que quieres eliminar este todo?",
     "error": "Ha ocurrido un error",
     "save": "Guardar",
     "cancel": "Cancelar",

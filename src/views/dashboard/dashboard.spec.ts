@@ -56,19 +56,27 @@ describe('Dashboard', () => {
     expect(mockTodosRestService.updatePagination).toHaveBeenCalledWith(2, 20);
   });
 
-  it('should log on editTodo', () => {
-    const consoleSpy = vi.spyOn(console, 'log');
-    const mockTodo = { id: 1, userId: 1, title: 'Test', completed: false };
-    (component as any).editTodo(mockTodo);
-    expect(consoleSpy).toHaveBeenCalledWith('edit', mockTodo);
-  });
+  it('should delete a todo when confirmed via dialog', () => {
+    const mockTodo = { id: 1, userId: 1, title: 'Test Todo', completed: false };
+    const dialogRefSpyObj = { afterClosed: () => of(true), close: vi.fn() };
+    const dialogSpy = vi.spyOn((component as any).dialog, 'open').mockReturnValue(dialogRefSpyObj as any);
 
-  it('should delete todo and reload', () => {
-    const mockTodo = { id: 1, userId: 1, title: 'Test', completed: false };
     (component as any).deleteTodo(mockTodo);
-    
+
+    expect(dialogSpy).toHaveBeenCalled();
     expect(mockTodosRestService.deleteTodo).toHaveBeenCalledWith(1);
     expect(mockTodosRestService.loadTodos).toHaveBeenCalled();
+  });
+
+  it('should NOT delete a todo when cancelled via dialog', () => {
+    const mockTodo = { id: 1, userId: 1, title: 'Test Todo', completed: false };
+    const dialogRefSpyObj = { afterClosed: () => of(false), close: vi.fn() };
+    const dialogSpy = vi.spyOn((component as any).dialog, 'open').mockReturnValue(dialogRefSpyObj as any);
+
+    (component as any).deleteTodo(mockTodo);
+
+    expect(dialogSpy).toHaveBeenCalled();
+    expect(mockTodosRestService.deleteTodo).not.toHaveBeenCalled();
   });
 
   it('should render spinner when loading', () => {

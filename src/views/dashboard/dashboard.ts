@@ -9,10 +9,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { take } from 'rxjs';
 import { Filter } from '../../components/filter/filter';
 import type { FilterValue } from '../../components/filter/filter.model';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatListModule, MatIcon, TranslatePipe, MatPaginatorModule, MatProgressSpinnerModule, Filter],
+  imports: [MatListModule, MatIcon, TranslatePipe, MatPaginatorModule, MatProgressSpinnerModule, Filter, MatDialogModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,6 +23,8 @@ export class Dashboard implements OnInit {
   private readonly todosRestService = inject(TodosRestService);
   protected readonly todos = this.todosRestService.todos;
   protected readonly isLoading = this.todosRestService.isLoading;
+
+  private readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.todosRestService.loadTodos();
@@ -55,11 +59,25 @@ export class Dashboard implements OnInit {
   }
 
   protected deleteTodo(todo: TodosItem): void {
-    this.todosRestService
-      .deleteTodo(todo.id)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.todosRestService.loadTodos();
-      });
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      data: {
+        title: 'common.delete',
+        message: 'common.confirmDelete',
+        confirmText: 'common.delete',
+        cancelText: 'common.cancel',
+      },
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.todosRestService
+          .deleteTodo(todo.id)
+          .pipe(take(1))
+          .subscribe(() => {
+            this.todosRestService.loadTodos();
+          });
+      }
+    });
   }
 }

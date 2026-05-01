@@ -1,6 +1,6 @@
 {
   "common": {
-    "loading": "Loading...",
+    "confirmDelete": "Are you sure you want to delete this todo?",
     "error": "An error occurred",
     "save": "Save",
     "cancel": "Cancel",
