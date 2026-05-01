@@ -29,7 +29,9 @@ export class ThemeService {
   private resolveInitialTheme(): Theme {
     const stored = this.document.defaultView?.localStorage.getItem('theme') as Theme | null;
     if (stored === 'light' || stored === 'dark') return stored;
-    const prefersDark = this.document.defaultView?.matchMedia('(prefers-color-scheme: dark)').matches;
+    const prefersDark = this.document.defaultView?.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches;
     return prefersDark ? 'dark' : 'light';
   }
 }

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HeaderComponent } from './header';
 import { ThemeService } from '../../shared/theme/theme.service';
-import { TranslationService } from '../../shared/i18n/translation.service';
+import { TranslationService } from '../../shared/i18n/services/translation.service';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 

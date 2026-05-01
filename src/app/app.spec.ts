@@ -22,7 +22,7 @@ describe('App', () => {
   beforeEach(async () => {
     vi.spyOn(window, 'fetch').mockResolvedValue({
       ok: true,
-      json: async () => ({})
+      json: async () => ({}),
     } as Response);
 
     await TestBed.configureTestingModule({

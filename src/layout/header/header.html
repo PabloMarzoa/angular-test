@@ -18,7 +18,9 @@
       mat-icon-button
       [matTooltip]="(themeService.theme() === 'light' ? 'theme.dark' : 'theme.light') | translate"
       (click)="themeService.toggle()"
-      [attr.aria-label]="(themeService.theme() === 'light' ? 'theme.dark' : 'theme.light') | translate"
+      [attr.aria-label]="
+        (themeService.theme() === 'light' ? 'theme.dark' : 'theme.light') | translate
+      "
       [attr.aria-pressed]="themeService.theme() === 'dark'"
     >
       <mat-icon>{{ themeService.theme() === 'light' ? 'dark_mode' : 'light_mode' }}</mat-icon>

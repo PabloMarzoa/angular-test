@@ -5,8 +5,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { ThemeService } from '../../shared/theme/theme.service';
-import { TranslationService } from '../../shared/i18n/translation.service';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslationService } from '../../shared/i18n/services/translation.service';
+import { TranslatePipe } from '../../shared/i18n/pipes/translate.pipe';
 import { SUPPORTED_LOCALES, SupportedLocale } from '../../shared/i18n/translation.types';
 
 @Component({

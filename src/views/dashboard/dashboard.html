@@ -1,0 +1,14 @@
+<section>
+  <mat-list #todosList>
+    @for (todo of todos(); track todo.id) {
+      <mat-list-item>
+        @if (todo.completed) {
+          <mat-icon>check</mat-icon>
+        } @else {
+          <mat-icon>close</mat-icon>
+        }
+        <span>{{ todo.title }}</span>
+      </mat-list-item>
+    }
+  </mat-list>
+</section>

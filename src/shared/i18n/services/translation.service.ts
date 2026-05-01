@@ -4,7 +4,7 @@ import {
   SUPPORTED_LOCALES,
   SupportedLocale,
   Translations,
-} from './translation.types';
+} from '../translation.types';
 
 @Injectable({ providedIn: 'root' })
 export class TranslationService {
@@ -20,9 +20,7 @@ export class TranslationService {
   readonly loading = signal(false);
 
   /** Reactive locale label for display purposes. */
-  readonly localeLabel = computed(() =>
-    this.locale() === 'es' ? 'Español' : 'English',
-  );
+  readonly localeLabel = computed(() => (this.locale() === 'es' ? 'Español' : 'English'));
 
   constructor() {
     this.load(this.locale());
