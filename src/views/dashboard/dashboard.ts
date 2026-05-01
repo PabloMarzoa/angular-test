@@ -7,10 +7,12 @@ import { TranslatePipe } from '../../shared/i18n/pipes/translate.pipe';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { take } from 'rxjs';
+import { Filter } from '../../components/filter/filter';
+import type { FilterValue } from '../../components/filter/filter.model';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatListModule, MatIcon, TranslatePipe, MatPaginatorModule, MatProgressSpinnerModule],
+  imports: [MatListModule, MatIcon, TranslatePipe, MatPaginatorModule, MatProgressSpinnerModule, Filter],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,6 +44,10 @@ export class Dashboard implements OnInit {
 
   protected onPageChange(event: PageEvent): void {
     this.todosRestService.updatePagination(event.pageIndex, event.pageSize);
+  }
+
+  protected onFilterChanged(value: FilterValue): void {
+    console.log('filter changed', value);
   }
 
   protected editTodo(todo: TodosItem): void {

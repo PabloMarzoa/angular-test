@@ -3,6 +3,9 @@
 <mat-spinner></mat-spinner>
   </section>
 } @else {
+  <section class="filter-section">
+    <app-filter (filterChanged)="onFilterChanged($event)" />
+  </section>
   <section>
     <mat-list #todosList>
       @for (todo of todos(); track todo.id; let odd = $odd) {
