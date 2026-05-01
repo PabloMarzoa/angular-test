@@ -2,8 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
 import { ThemeService } from './theme.service';
 
-const matchMediaStub = (matches: boolean) =>
-  ((_query: string): MediaQueryList =>
+const matchMediaStub =
+  (matches: boolean) =>
+  (_query: string): MediaQueryList =>
     ({
       matches,
       media: _query,
@@ -13,7 +14,7 @@ const matchMediaStub = (matches: boolean) =>
       addEventListener: () => {},
       removeEventListener: () => {},
       dispatchEvent: () => false,
-    }) as MediaQueryList);
+    }) as MediaQueryList;
 
 describe('ThemeService', () => {
   let service: ThemeService;

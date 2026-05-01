@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslationService } from './translation.service';
-import { TranslatePipe } from './translate.pipe';
+import { TranslatePipe } from '../pipes/translate.pipe';
 
 describe('TranslationService', () => {
   let service: TranslationService;
@@ -11,19 +11,23 @@ describe('TranslationService', () => {
     const store: Record<string, string> = {};
     const mockLocalStorage = {
       getItem: (key: string) => store[key] || null,
-      setItem: (key: string, value: string) => { store[key] = value; },
-      removeItem: (key: string) => { delete store[key]; },
+      setItem: (key: string, value: string) => {
+        store[key] = value;
+      },
+      removeItem: (key: string) => {
+        delete store[key];
+      },
     };
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
 
     // Mock fetch
     fetchSpy = vi.spyOn(window, 'fetch').mockResolvedValue({
       ok: true,
-      json: async () => ({ common: { save: 'Save' }, theme: { dark: 'Dark' } })
+      json: async () => ({ common: { save: 'Save' }, theme: { dark: 'Dark' } }),
     } as Response);
 
     TestBed.configureTestingModule({
-      providers: [TranslationService]
+      providers: [TranslationService],
     });
     service = TestBed.inject(TranslationService);
   });
@@ -45,19 +49,19 @@ describe('TranslationService', () => {
 
   it('should translate keys correctly', async () => {
     // wait for initial load
-    await new Promise(r => setTimeout(r, 0));
+    await new Promise((r) => setTimeout(r, 0));
     expect(service.translate('common.save')).toBe('Save');
   });
 
   it('should fallback to key if translation is missing', async () => {
-    await new Promise(r => setTimeout(r, 0));
+    await new Promise((r) => setTimeout(r, 0));
     expect(service.translate('missing.key')).toBe('missing.key');
   });
 
   it('should interpolate params', async () => {
     fetchSpy.mockResolvedValueOnce({
       ok: true,
-      json: async () => ({ greeting: 'Hello {{name}}' })
+      json: async () => ({ greeting: 'Hello {{name}}' }),
     } as Response);
     await service.setLocale('es'); // force reload
     expect(service.translate('greeting', { name: 'World' })).toBe('Hello World');
@@ -77,11 +81,11 @@ describe('TranslatePipe', () => {
   beforeEach(() => {
     vi.spyOn(window, 'fetch').mockResolvedValue({
       ok: true,
-      json: async () => ({})
+      json: async () => ({}),
     } as Response);
 
     TestBed.configureTestingModule({
-      providers: [TranslationService, TranslatePipe]
+      providers: [TranslationService, TranslatePipe],
     });
     service = TestBed.inject(TranslationService);
     pipe = TestBed.inject(TranslatePipe);

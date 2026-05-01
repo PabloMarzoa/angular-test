@@ -1,0 +1,14 @@
+# Node
+node_modules
+dist
+coverage
+
+# IDEs and Editors
+.vscode
+.idea
+
+# Angular
+.angular
+
+# Mac
+.DS_Store

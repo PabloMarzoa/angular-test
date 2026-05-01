@@ -37,3 +37,12 @@ body {
 }
 /* You can add global styles to this file, and also import other style files */
 
+.content {
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.action {
+  cursor: pointer;
+}

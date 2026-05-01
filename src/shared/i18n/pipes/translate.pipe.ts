@@ -1,5 +1,5 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { TranslationService } from './translation.service';
+import { TranslationService } from '../services/translation.service';
 
 /**
  * Translates a dot-notation key using the active locale.

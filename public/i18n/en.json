@@ -1,6 +1,6 @@
 {
   "common": {
-    "loading": "Loading...",
+    "confirmDelete": "Are you sure you want to delete this todo?",
     "error": "An error occurred",
     "save": "Save",
     "cancel": "Cancel",
@@ -16,5 +16,19 @@
   "theme": {
     "dark": "Dark",
     "light": "Light"
+  },
+  "todos": {
+    "userId": "User ID",
+    "title": "Title",
+    "completed": "Status"
+  },
+  "paginator": {
+    "itemsPerPageLabel": "Items per page:",
+    "nextPageLabel": "Next page",
+    "previousPageLabel": "Previous page",
+    "firstPageLabel": "First page",
+    "lastPageLabel": "Last page",
+    "rangeEmpty": "0 of {{length}}",
+    "range": "{{startIndex}} - {{endIndex}} of {{length}}"
   }
 }

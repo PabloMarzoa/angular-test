@@ -1,6 +1,6 @@
 {
   "common": {
-    "loading": "Cargando...",
+    "confirmDelete": "¿Estás seguro de que quieres eliminar este todo?",
     "error": "Ha ocurrido un error",
     "save": "Guardar",
     "cancel": "Cancelar",
@@ -16,5 +16,19 @@
   "theme": {
     "dark": "Oscuro",
     "light": "Claro"
+  },
+  "todos": {
+    "userId": "ID Usuario",
+    "title": "Título",
+    "completed": "Estado"
+  },
+  "paginator": {
+    "itemsPerPageLabel": "Elementos por página:",
+    "nextPageLabel": "Siguiente página",
+    "previousPageLabel": "Página anterior",
+    "firstPageLabel": "Primera página",
+    "lastPageLabel": "Última página",
+    "rangeEmpty": "0 de {{length}}",
+    "range": "{{startIndex}} - {{endIndex}} de {{length}}"
   }
 }
