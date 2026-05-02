@@ -1,17 +1,12 @@
 {
   "common": {
     "confirmDelete": "Are you sure you want to delete this todo?",
-    "error": "An error occurred",
     "save": "Save",
     "cancel": "Cancel",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "close": "Close",
-    "back": "Back",
-    "next": "Next",
-    "yes": "Yes",
-    "no": "No"
+    "delete": "Delete"
+  },
+  "lang": {
+    "select": "Select language"
   },
   "theme": {
     "dark": "Dark",
@@ -21,7 +16,8 @@
     "userId": "User ID",
     "title": "Title",
     "completed": "Status",
-    "editTitle": "Editing Todo ID: {{id}}"
+    "editTitle": "Editing Todo ID: {{id}}",
+    "addTitle": "Add New Todo"
   },
   "paginator": {
     "itemsPerPageLabel": "Items per page:",

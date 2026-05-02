@@ -65,4 +65,8 @@ export class TodosRestService {
   public updateTodo(id: number, todo: TodoNew): Observable<TodosItem> {
     return this.httpClient.put<TodosItem>(`${this.API}/todos/${id}`, todo).pipe(delay(500));
   }
+
+  public addTodo(todo: TodoNew): Observable<TodosItem> {
+    return this.httpClient.post<TodosItem>(`${this.API}/todos`, todo).pipe(delay(500));
+  }
 }

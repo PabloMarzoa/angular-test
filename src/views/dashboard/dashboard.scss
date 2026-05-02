@@ -1,3 +1,11 @@
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+}
+
 .odd-row {
   background-color: var(--mat-sys-surface-container-high, rgba(0, 0, 0, 0.04));
 }

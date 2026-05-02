@@ -12,10 +12,11 @@ import { Filter } from '../../components/filter/filter';
 import type { FilterValue } from '../../components/filter/filter.model';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatListModule, MatIcon, TranslatePipe, MatPaginatorModule, MatProgressSpinnerModule, Filter, MatDialogModule],
+  imports: [MatListModule, MatIcon, TranslatePipe, MatPaginatorModule, MatProgressSpinnerModule, Filter, MatDialogModule, MatButtonModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,6 +57,10 @@ export class Dashboard implements OnInit {
     this.todosRestService.updateFilter(value);
   }
 
+  protected navigateToAdd(): void {
+    this.router.navigate(['/add']);
+  }
+
   protected editTodo(todo: TodosItem): void {
     this.todosRestService.isLoading.set(true);
     this.todosRestService.getTodo(todo.id).pipe(
@@ -64,9 +69,6 @@ export class Dashboard implements OnInit {
     ).subscribe({
       next: (loadedTodo) => {
         this.router.navigate(['/todos/', todo.id], { state: { todo: loadedTodo } });
-      },
-      error: () => {
-        // La carga se oculta en el finalize
       }
     });
   }

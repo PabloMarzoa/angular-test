@@ -10,6 +10,10 @@ export const routes: Routes = [
     loadComponent: () => import('../views/edit/edit').then((m) => m.Edit),
   },
   {
+    path: 'add',
+    loadComponent: () => import('../views/add/add').then((m) => m.Add),
+  },
+  {
     path: '**',
     redirectTo: 'todos',
   },

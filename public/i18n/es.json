@@ -1,17 +1,12 @@
 {
   "common": {
     "confirmDelete": "¿Estás seguro de que quieres eliminar este todo?",
-    "error": "Ha ocurrido un error",
     "save": "Guardar",
     "cancel": "Cancelar",
-    "confirm": "Confirmar",
-    "delete": "Eliminar",
-    "edit": "Editar",
-    "close": "Cerrar",
-    "back": "Volver",
-    "next": "Siguiente",
-    "yes": "Sí",
-    "no": "No"
+    "delete": "Eliminar"
+  },
+  "lang": {
+    "select": "Seleccionar idioma"
   },
   "theme": {
     "dark": "Oscuro",
@@ -21,7 +16,8 @@
     "userId": "ID de Usuario",
     "title": "Título",
     "completed": "Estado",
-    "editTitle": "Editando Todo ID: {{id}}"
+    "editTitle": "Editando Todo ID: {{id}}",
+    "addTitle": "Añadir Nuevo Todo"
   },
   "paginator": {
     "itemsPerPageLabel": "Elementos por página:",
