@@ -1,0 +1,48 @@
+<div class="add-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        {{ 'todos.addTitle' | translate }}
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="form-content">
+      <mat-form-field>
+        <mat-label>{{ 'todos.userId' | translate }}</mat-label>
+        <mat-select [formField]="addForm.userId">
+          @for (option of numberOptions; track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{ 'todos.title' | translate }}</mat-label>
+        <input matInput type="text" [formField]="addForm.title" />
+      </mat-form-field>
+
+      <mat-checkbox [formField]="addForm.completed" color="primary">
+        {{ 'todos.completed' | translate }}
+      </mat-checkbox>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-button (click)="cancel()" [disabled]="isSaving()">
+        {{ 'common.cancel' | translate }}
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="save()"
+        [disabled]="isSaving() || addForm().invalid()"
+        class="save-btn"
+      >
+        @if (isSaving()) {
+          <mat-spinner diameter="20" class="saving-spinner"></mat-spinner>
+        } @else {
+          {{ 'common.save' | translate }}
+        }
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

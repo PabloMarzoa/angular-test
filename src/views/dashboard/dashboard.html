@@ -1,5 +1,8 @@
   <section class="filter-section">
     <app-filter [isDisabled]="isLoading()" (filterChanged)="onFilterChanged($event)" />
+    <button mat-fab color="primary" class="add-todo-btn" aria-label="Add todo" (click)="navigateToAdd()">
+      <mat-icon>add</mat-icon>
+    </button>
   </section>
 
 @if (isLoading()) {

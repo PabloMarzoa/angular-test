@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { TodosRestService } from '../../shared/rest/todos-rest.service';
 import type { TodosItem } from '../../shared/models/todos';
@@ -6,15 +7,16 @@ import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe } from '../../shared/i18n/pipes/translate.pipe';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { take } from 'rxjs';
+import { finalize, take } from 'rxjs';
 import { Filter } from '../../components/filter/filter';
 import type { FilterValue } from '../../components/filter/filter.model';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatListModule, MatIcon, TranslatePipe, MatPaginatorModule, MatProgressSpinnerModule, Filter, MatDialogModule],
+  imports: [MatListModule, MatIcon, TranslatePipe, MatPaginatorModule, MatProgressSpinnerModule, Filter, MatDialogModule, MatButtonModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,6 +27,7 @@ export class Dashboard implements OnInit {
   protected readonly isLoading = this.todosRestService.isLoading;
 
   private readonly dialog = inject(MatDialog);
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     this.todosRestService.loadTodos();
@@ -54,8 +57,20 @@ export class Dashboard implements OnInit {
     this.todosRestService.updateFilter(value);
   }
 
+  protected navigateToAdd(): void {
+    this.router.navigate(['/add']);
+  }
+
   protected editTodo(todo: TodosItem): void {
-    console.log('edit', todo);
+    this.todosRestService.isLoading.set(true);
+    this.todosRestService.getTodo(todo.id).pipe(
+      take(1),
+      finalize(() => this.todosRestService.isLoading.set(false))
+    ).subscribe({
+      next: (loadedTodo) => {
+        this.router.navigate(['/todos/', todo.id], { state: { todo: loadedTodo } });
+      }
+    });
   }
 
   protected deleteTodo(todo: TodosItem): void {

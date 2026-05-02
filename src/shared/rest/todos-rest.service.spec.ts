@@ -78,6 +78,24 @@ describe('TodosRestService', () => {
     req.flush(null);
   });
 
+
+  it('should update a todo via PUT with delay', () => {
+    vi.useFakeTimers();
+    const updatedTodo = { userId: 1, title: 'Updated', completed: true };
+    let result: any;
+    service.updateTodo(1, updatedTodo).subscribe((res) => (result = res));
+    
+    const req = httpTestingController.expectOne(`${service['API']}/todos/1`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual(updatedTodo);
+    
+    req.flush({ ...updatedTodo, id: 1 });
+    vi.advanceTimersByTime(500); // Simulate delay
+    
+    expect(result).toEqual({ ...updatedTodo, id: 1 });
+    vi.useRealTimers();
+  });
+
   it('should apply userId filter as query param', () => {
     service.updateFilter({ userId: 2, title: '' });
 

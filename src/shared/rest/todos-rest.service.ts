@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import type { TodosItem } from '../models/todos';
+import type { TodosItem, TodoNew } from '../models/todos';
 import type { FilterValue } from '../../components/filter/filter.model';
 import { delay, finalize, type Observable } from 'rxjs';
 
@@ -60,5 +60,13 @@ export class TodosRestService {
 
   public deleteTodo(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.API}/todos/${id}`);
+  }
+
+  public updateTodo(id: number, todo: TodoNew): Observable<TodosItem> {
+    return this.httpClient.put<TodosItem>(`${this.API}/todos/${id}`, todo).pipe(delay(500));
+  }
+
+  public addTodo(todo: TodoNew): Observable<TodosItem> {
+    return this.httpClient.post<TodosItem>(`${this.API}/todos`, todo).pipe(delay(500));
   }
 }
