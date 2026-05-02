@@ -20,7 +20,8 @@ describe('Dashboard', () => {
       pageSizeOptions: signal([10, 20, 30]),
       loadTodos: vi.fn(),
       updatePagination: vi.fn(),
-      deleteTodo: vi.fn().mockReturnValue(of(null))
+      deleteTodo: vi.fn().mockReturnValue(of(null)),
+      getTodo: vi.fn().mockReturnValue(of({ id: 1, userId: 1, title: 'Loaded', completed: false }))
     };
 
     await TestBed.configureTestingModule({
@@ -54,6 +55,19 @@ describe('Dashboard', () => {
     const event: PageEvent = { pageIndex: 2, pageSize: 20, length: 100 };
     (component as any).onPageChange(event);
     expect(mockTodosRestService.updatePagination).toHaveBeenCalledWith(2, 20);
+  });
+
+  it('should load todo and navigate on editTodo', () => {
+    const mockTodo = { id: 1, userId: 1, title: 'Test', completed: false };
+    const loadedTodo = { id: 1, userId: 1, title: 'Loaded', completed: false };
+    mockTodosRestService.getTodo.mockReturnValue(of(loadedTodo));
+    const navigateSpy = vi.spyOn((component as any).router, 'navigate');
+
+    (component as any).editTodo(mockTodo);
+
+    expect(mockTodosRestService.isLoading()).toBe(false); //finalize sets it to false
+    expect(mockTodosRestService.getTodo).toHaveBeenCalledWith(1);
+    expect(navigateSpy).toHaveBeenCalledWith(['/todos/', 1], { state: { todo: loadedTodo } });
   });
 
   it('should delete a todo when confirmed via dialog', () => {

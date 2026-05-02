@@ -18,9 +18,10 @@
     "light": "Claro"
   },
   "todos": {
-    "userId": "ID Usuario",
+    "userId": "ID de Usuario",
     "title": "Título",
-    "completed": "Estado"
+    "completed": "Estado",
+    "editTitle": "Editando Todo ID: {{id}}"
   },
   "paginator": {
     "itemsPerPageLabel": "Elementos por página:",

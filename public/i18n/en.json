@@ -20,7 +20,8 @@
   "todos": {
     "userId": "User ID",
     "title": "Title",
-    "completed": "Status"
+    "completed": "Status",
+    "editTitle": "Editing Todo ID: {{id}}"
   },
   "paginator": {
     "itemsPerPageLabel": "Items per page:",
