@@ -1,14 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   effect,
-  inject,
-  Injector,
   signal,
   output,
   input,
   untracked,
+  viewChild,
+  ElementRef,
 } from '@angular/core';
 import { form, FormField, debounce, disabled } from '@angular/forms/signals';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,10 +23,13 @@ import { TranslatePipe } from '../../shared/i18n/pipes/translate.pipe';
   styleUrl: './filter.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Filter implements OnInit {
+export class Filter {
+  private readonly titleInput = viewChild<ElementRef<HTMLInputElement>>('titleInput');
   readonly isDisabled = input<boolean>(false);
 
-  private readonly injector = inject(Injector);
+  public focusTitleInput(): void {
+    this.titleInput()?.nativeElement.focus();
+  }
 
   readonly filterChanged = output<FilterValue>();
 
@@ -44,17 +46,22 @@ export class Filter implements OnInit {
     disabled(s.title, () => this.isDisabled());
   });
 
-  ngOnInit(): void {
-    effect(
-      () => {
-        const value = this.model();
-        if (!untracked(() => this.filterForm().dirty())) return;
-        this.filterChanged.emit({
-          userId: value.userId === 0 ? null : value.userId,
-          title: value.title,
+  constructor() {
+    effect(() => {
+      const value = this.model();
+      if (!untracked(() => this.filterForm().dirty())) return;
+      this.filterChanged.emit({
+        userId: value.userId === 0 ? null : value.userId,
+        title: value.title,
+      });
+    });
+
+    effect(() => {
+      if (!this.isDisabled()) {
+        untracked(() => {
+          setTimeout(() => this.focusTitleInput(), 0);
         });
-      },
-      { injector: this.injector },
-    );
+      }
+    });
   }
 }
