@@ -41,7 +41,7 @@ export class StorageService {
     localStorage.clear();
   }
 
-  setCookie(key: string, value: string, days: number = 365): void {
+  setCookie(key: string, value: string, days = 365): void {
     const encodedValue = globalThis.btoa ? globalThis.btoa(value) : value;
     const date = new Date();
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
@@ -52,8 +52,7 @@ export class StorageService {
   getCookie(key: string): string | null {
     const nameEQ = `${key}=`;
     const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
+    for (let c of ca) {
       while (c.charAt(0) === ' ') c = c.substring(1, c.length);
       if (c.indexOf(nameEQ) === 0) {
         const value = c.substring(nameEQ.length, c.length);

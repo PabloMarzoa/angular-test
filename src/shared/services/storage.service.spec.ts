@@ -2,8 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { StorageService } from './storage.service';
 
 if (typeof btoa === 'undefined') {
-  (globalThis as any).btoa = (str: string) => (globalThis as any).Buffer.from(str).toString('base64');
-  (globalThis as any).atob = (str: string) => (globalThis as any).Buffer.from(str, 'base64').toString();
+  Object.defineProperty(globalThis, 'btoa', {
+    value: (str: string) => (globalThis as unknown as { Buffer: any }).Buffer.from(str).toString('base64'),
+  });
+  Object.defineProperty(globalThis, 'atob', {
+    value: (str: string) => (globalThis as unknown as { Buffer: any }).Buffer.from(str, 'base64').toString(),
+  });
 }
 
 describe('StorageService', () => {
@@ -76,7 +80,9 @@ describe('StorageService', () => {
       const spy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
         throw new Error('Quota exceeded');
       });
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {
+        // Mock error console
+      });
       
       service.setLocal('key', 'value');
       
@@ -89,7 +95,9 @@ describe('StorageService', () => {
       const spy = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
         throw new Error('Access denied');
       });
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {
+        // Mock error console
+      });
       
       const result = service.getLocal('key');
       

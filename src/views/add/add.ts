@@ -43,7 +43,9 @@ export class Add {
     completed: false,
   });
 
-  protected readonly addForm = form(this.model, (s) => {});
+  protected readonly addForm = form(this.model, () => {
+    // Basic form configuration
+  });
 
   protected cancel(): void {
     this.router.navigate(['/todos']);

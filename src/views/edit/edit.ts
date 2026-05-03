@@ -10,9 +10,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TranslatePipe } from '../../shared/i18n/pipes/translate.pipe';
-import { catchError, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import type { TodoNew, TodosItem } from '../../shared/models/todos';
-import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-edit',
@@ -48,7 +47,9 @@ export class Edit implements OnInit {
     completed: false,
   });
 
-  protected readonly editForm = form(this.model, (s) => {});
+  protected readonly editForm = form(this.model, () => {
+    // Basic form configuration
+  });
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
