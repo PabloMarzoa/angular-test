@@ -128,9 +128,14 @@ We use **Vitest** for a significantly faster testing experience and better integ
 
   
 
-### 6. Husky
-
 We use **Husky** to validate the code before committing it. This allows us to catch errors early and provide user feedback.
+
+### 7. Progressive Web App (PWA)
+The application is fully PWA-ready. It includes a Service Worker that:
+- Caches application assets (JS, CSS, HTML, Icons) for instant loading.
+- Caches i18n translation files.
+- Caches API responses from JSONPlaceholder using a `freshness` strategy, allowing the user to view data even when offline.
+- Detects connectivity status and restricts data-mutating actions (Add, Edit, Delete) until connection is restored.
 
 ---
 
@@ -165,5 +170,9 @@ We use **Husky** to validate the code before committing it. This allows us to ca
 7. **Persistent Storage**
    ![Storage Cookies](docs/screenshots/storage-cookies.png)
    Encoded persistence for settings and preferences in Cookies and LocalStorage.
+
+8. **PWA Service Worker**
+   ![PWA Service Worker](docs/screenshots/offline.png)
+   Service Worker caching for offline support.
 
 ---

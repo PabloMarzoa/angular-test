@@ -2,6 +2,11 @@
   <mat-toolbar class="layout-header">
     <span class="header-title">PMarzoa Test</span>
     <span class="header-spacer"></span>
+    @if (!online.isOnline()) {
+      <mat-icon class="offline-icon" [matTooltip]="'common.offline' | translate" color="warn">
+        cloud_off
+      </mat-icon>
+    }
 
     <mat-select
       class="lang-select"

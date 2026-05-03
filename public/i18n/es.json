@@ -4,7 +4,8 @@
     "save": "Guardar",
     "cancel": "Cancelar",
     "delete": "Eliminar",
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "offline": "Modo Offline"
   },
   "httpErrors": {
     "title": "Error",

@@ -13,6 +13,8 @@ import type { FilterValue } from '../../components/filter/filter.model';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { OnlineService } from '../../shared/network/online.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,6 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
     Filter,
     MatDialogModule,
     MatButtonModule,
+    MatTooltipModule,
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
@@ -37,6 +40,7 @@ export class Dashboard implements OnInit {
 
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
+  public readonly online = inject(OnlineService);
 
   ngOnInit(): void {
     this.todosRestService.loadTodos();

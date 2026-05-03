@@ -44,7 +44,8 @@
           mat-flat-button
           color="primary"
           (click)="save()"
-          [disabled]="isSaving() || editForm().invalid()"
+          [disabled]="isSaving() || editForm().invalid() || !online.isOnline()"
+          [matTooltip]="(!online.isOnline() ? 'common.offline' : '') | translate"
           class="save-btn"
         >
           @if (isSaving()) {

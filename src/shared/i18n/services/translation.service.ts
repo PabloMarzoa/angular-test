@@ -64,7 +64,7 @@ export class TranslationService {
   private async load(locale: SupportedLocale): Promise<void> {
     this.loading.set(true);
     try {
-      const response = await fetch(`/i18n/${locale}.json`);
+      const response = await fetch(`i18n/${locale}.json`);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = (await response.json()) as Translations;
       this.translations.set(data);

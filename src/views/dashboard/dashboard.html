@@ -10,6 +10,8 @@
     class="add-todo-btn"
     aria-label="Add todo"
     (click)="navigateToAdd()"
+    [disabled]="!online.isOnline()"
+    [matTooltip]="(!online.isOnline() ? 'common.offline' : '') | translate"
   >
     <mat-icon>add</mat-icon>
   </button>
@@ -33,12 +35,18 @@
           <span matListItemLine>{{ todo.title }}</span>
 
           <div matListItemMeta class="item-actions">
-            <mat-icon class="action edit-icon" aria-label="Edit todo" (click)="editTodo(todo)"
-              >edit</mat-icon
-            >
-            <mat-icon class="action delete-icon" aria-label="Delete todo" (click)="deleteTodo(todo)"
-              >delete</mat-icon
-            >
+            @if (online.isOnline()) {
+              <mat-icon class="action edit-icon" aria-label="Edit todo" (click)="editTodo(todo)">
+                edit
+              </mat-icon>
+              <mat-icon
+                class="action delete-icon"
+                aria-label="Delete todo"
+                (click)="deleteTodo(todo)"
+              >
+                delete
+              </mat-icon>
+            }
           </div>
         </mat-list-item>
       }

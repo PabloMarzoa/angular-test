@@ -8,6 +8,7 @@ import { ThemeService } from '../../shared/theme/theme.service';
 import { TranslationService } from '../../shared/i18n/services/translation.service';
 import { TranslatePipe } from '../../shared/i18n/pipes/translate.pipe';
 import { SUPPORTED_LOCALES, SupportedLocale } from '../../shared/i18n/translation.types';
+import { OnlineService } from '../../shared/network/online.service';
 
 @Component({
   selector: 'app-header',
@@ -26,6 +27,7 @@ import { SUPPORTED_LOCALES, SupportedLocale } from '../../shared/i18n/translatio
 export class HeaderComponent {
   protected readonly themeService = inject(ThemeService);
   protected readonly i18n = inject(TranslationService);
+  public readonly online = inject(OnlineService);
 
   protected readonly locales: SupportedLocale[] = SUPPORTED_LOCALES;
 

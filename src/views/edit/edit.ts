@@ -8,10 +8,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TranslatePipe } from '../../shared/i18n/pipes/translate.pipe';
 import { finalize } from 'rxjs/operators';
 import type { TodoNew, TodosItem } from '../../shared/models/todos';
+import { OnlineService } from '../../shared/network/online.service';
 
 @Component({
   selector: 'app-edit',
@@ -22,6 +24,7 @@ import type { TodoNew, TodosItem } from '../../shared/models/todos';
     MatSelectModule,
     MatCheckboxModule,
     MatButtonModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     TranslatePipe,
     FormField,
@@ -34,6 +37,7 @@ export class Edit implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly todosRestService = inject(TodosRestService);
+  public readonly online = inject(OnlineService);
 
   readonly id = signal<number | null>(null);
   readonly isLoading = signal(true);

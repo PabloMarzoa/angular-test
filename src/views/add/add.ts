@@ -8,11 +8,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TranslatePipe } from '../../shared/i18n/pipes/translate.pipe';
 import { finalize } from 'rxjs/operators';
 import type { TodoNew, TodosItem } from '../../shared/models/todos';
 import { environment } from '../../environments/environment';
+import { OnlineService } from '../../shared/network/online.service';
 
 @Component({
   selector: 'app-add',
@@ -23,6 +25,7 @@ import { environment } from '../../environments/environment';
     MatSelectModule,
     MatCheckboxModule,
     MatButtonModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     TranslatePipe,
     FormField,
@@ -34,6 +37,7 @@ import { environment } from '../../environments/environment';
 export class Add {
   private readonly router = inject(Router);
   private readonly todosRestService = inject(TodosRestService);
+  public readonly online = inject(OnlineService);
 
   readonly isSaving = signal(false);
   protected readonly numberOptions = [1, 2, 3, 4];
