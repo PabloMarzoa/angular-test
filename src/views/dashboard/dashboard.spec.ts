@@ -20,6 +20,7 @@ describe('Dashboard', () => {
       pageSizeOptions: signal([10, 20, 30]),
       loadTodos: vi.fn(),
       updatePagination: vi.fn(),
+      updateFilter: vi.fn(),
       deleteTodo: vi.fn().mockReturnValue(of(null)),
       getTodo: vi.fn().mockReturnValue(of({ id: 1, userId: 1, title: 'Loaded', completed: false })),
     };
@@ -114,5 +115,23 @@ describe('Dashboard', () => {
     const items = compiled.querySelectorAll('mat-list-item');
     expect(items.length).toBe(2);
     expect(compiled.querySelector('mat-spinner')).toBeFalsy();
+  });
+
+  it('should call updateFilter on filter change', () => {
+    const filterValue = { userId: 1, title: 'test' };
+    (component as any).onFilterChanged(filterValue);
+    expect(mockTodosRestService.updateFilter).toHaveBeenCalledWith(filterValue);
+  });
+
+  it('should navigate to add page on navigateToAdd', () => {
+    const navigateSpy = vi.spyOn((component as any).router, 'navigate');
+    (component as any).navigateToAdd();
+    expect(navigateSpy).toHaveBeenCalledWith(['/add']);
+  });
+
+  it('should return current filter via getter', () => {
+    const filterValue = { userId: 1, title: 'test' };
+    mockTodosRestService.currentFilter = filterValue;
+    expect(component.currentFilter).toEqual(filterValue);
   });
 });

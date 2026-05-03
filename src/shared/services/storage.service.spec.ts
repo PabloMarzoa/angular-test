@@ -1,6 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { StorageService } from './storage.service';
 
+if (typeof btoa === 'undefined') {
+  (globalThis as any).btoa = (str: string) => (globalThis as any).Buffer.from(str).toString('base64');
+  (globalThis as any).atob = (str: string) => (globalThis as any).Buffer.from(str, 'base64').toString();
+}
+
 describe('StorageService', () => {
   let service: StorageService;
 
@@ -57,6 +62,48 @@ describe('StorageService', () => {
       service.setCookie('test_cookie', 'test_value');
       service.removeCookie('test_cookie');
       expect(service.getCookie('test_cookie')).toBeNull();
+    });
+
+    it('should return null if cookie is not base64 encoded', () => {
+      document.cookie = 'bad_cookie=not-base64!';
+      // StorageService.getCookie uses try/catch on atob
+      expect(service.getCookie('bad_cookie')).toBe('not-base64!');
+    });
+  });
+
+  describe('Error Handling', () => {
+    it('should handle localStorage.setItem errors', () => {
+      const spy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+        throw new Error('Quota exceeded');
+      });
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      
+      service.setLocal('key', 'value');
+      
+      expect(consoleSpy).toHaveBeenCalled();
+      spy.mockRestore();
+      consoleSpy.mockRestore();
+    });
+
+    it('should handle localStorage.getItem errors', () => {
+      const spy = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+        throw new Error('Access denied');
+      });
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      
+      const result = service.getLocal('key');
+      
+      expect(result).toBeNull();
+      expect(consoleSpy).toHaveBeenCalled();
+      spy.mockRestore();
+      consoleSpy.mockRestore();
+    });
+
+    it('should handle invalid JSON in decoded storage', () => {
+      // Set valid base64 but invalid JSON
+      localStorage.setItem('key', btoa('{invalid-json}'));
+      const result = service.getLocal('key');
+      expect(result).toBeNull();
     });
   });
 });

@@ -32,7 +32,7 @@ describe('TodosRestService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(mockTodos);
 
-    vi.advanceTimersByTime(500); // Avanzar el tiempo virtual para superar el delay(500)
+    vi.advanceTimersByTime(500); // Advance virtual time to bypass delay(500)
 
     expect(service.todos()).toEqual(mockTodos);
     vi.useRealTimers();
@@ -146,5 +146,52 @@ describe('TodosRestService', () => {
     );
     expect(req.request.method).toBe('GET');
     req.flush([]);
+  });
+
+  it('should add a new todo via POST with delay', () => {
+    vi.useFakeTimers();
+    const newTodo = { userId: 1, title: 'New Todo', completed: false };
+    let result: any;
+    service.addTodo(newTodo).subscribe((res) => (result = res));
+
+    const req = httpTestingController.expectOne(`${service['API']}/todos`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(newTodo);
+
+    req.flush({ ...newTodo, id: 201 });
+    vi.advanceTimersByTime(500);
+
+    expect(result).toEqual({ ...newTodo, id: 201 });
+    vi.useRealTimers();
+  });
+
+  it('should return the current filter via getter', () => {
+    const filterValue = { userId: 5, title: 'test' };
+    service.updateFilter(filterValue);
+    // Flush the HTTP request triggered by updateFilter
+    httpTestingController.expectOne((r) => r.url.includes('/todos')).flush([]);
+    
+    expect(service.currentFilter).toEqual(filterValue);
+  });
+
+  it('should not reload todos if updateFilter is called with same values', () => {
+    const filterValue = { userId: 5, title: 'test' };
+    service.updateFilter(filterValue);
+    const req = httpTestingController.expectOne((r) => r.url.includes('/todos'));
+    req.flush([]);
+
+    service.updateFilter(filterValue);
+    httpTestingController.expectNone((r) => r.url.includes('/todos'));
+  });
+
+  it('should persist changes to StorageService via effect', () => {
+    const storageSpy = vi.spyOn(service['storageService'], 'setLocal');
+    
+    service.updatePagination(5, 50);
+    // Flush the HTTP request triggered by updatePagination
+    httpTestingController.expectOne((r) => r.url.includes('/todos')).flush([]);
+
+    TestBed.flushEffects();
+    expect(storageSpy).toHaveBeenCalled();
   });
 });

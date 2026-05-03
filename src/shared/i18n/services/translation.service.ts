@@ -35,7 +35,7 @@ export class TranslationService {
     if (this.locale() === locale) return;
     this.locale.set(locale);
     this.storageService.setCookie('locale', locale);
-    // Limpieza opcional de localStorage para evitar duplicidad
+    // Optional cleanup of localStorage to avoid duplication
     this.storageService.removeLocal('locale');
     await this.load(locale);
   }

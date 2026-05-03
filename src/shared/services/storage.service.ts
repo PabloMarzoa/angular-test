@@ -7,7 +7,7 @@ export class StorageService {
   setLocal<T>(key: string, value: T): void {
     try {
       const stringified = JSON.stringify(value);
-      const encoded = btoa(stringified);
+      const encoded = globalThis.btoa ? globalThis.btoa(stringified) : stringified;
       localStorage.setItem(key, encoded);
     } catch (error) {
       console.error('Error saving to LocalStorage', error);
@@ -21,7 +21,7 @@ export class StorageService {
 
       let decoded: string;
       try {
-        decoded = atob(item);
+        decoded = globalThis.atob ? globalThis.atob(item) : item;
       } catch {
         decoded = item;
       }
@@ -42,7 +42,7 @@ export class StorageService {
   }
 
   setCookie(key: string, value: string, days: number = 365): void {
-    const encodedValue = btoa(value);
+    const encodedValue = globalThis.btoa ? globalThis.btoa(value) : value;
     const date = new Date();
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     const expires = `; expires=${date.toUTCString()}`;
@@ -58,7 +58,7 @@ export class StorageService {
       if (c.indexOf(nameEQ) === 0) {
         const value = c.substring(nameEQ.length, c.length);
         try {
-          return atob(value);
+          return globalThis.atob ? globalThis.atob(value) : value;
         } catch {
           return value;
         }
