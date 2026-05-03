@@ -1,0 +1,59 @@
+<div class="edit-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        {{ 'todos.editTitle' | translate: { id: id() ?? '' } }}
+      </mat-card-title>
+    </mat-card-header>
+
+    @if (isLoading()) {
+      <div class="loader-container">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+    } @else {
+      <mat-card-content class="form-content">
+        <mat-form-field>
+          <mat-label>{{ 'todos.userId' | translate }}</mat-label>
+          <mat-select [formField]="editForm.userId">
+            @for (option of numberOptions; track option) {
+              <mat-option [value]="option">{{ option }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>{{ 'todos.title' | translate }}</mat-label>
+          <input matInput type="text" [formField]="editForm.title" />
+          @if (editForm.title().invalid() && editForm.title().touched()) {
+            @for (error of editForm.title().errors(); track error.kind) {
+              <mat-error>{{ 'validation.' + error.kind | translate }}</mat-error>
+            }
+          }
+        </mat-form-field>
+
+        <mat-checkbox [formField]="editForm.completed" color="primary">
+          {{ 'todos.completed' | translate }}
+        </mat-checkbox>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-button (click)="cancel()" [disabled]="isSaving()">
+          {{ 'common.cancel' | translate }}
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="save()"
+          [disabled]="isSaving() || editForm().invalid()"
+          class="save-btn"
+        >
+          @if (isSaving()) {
+            <mat-spinner diameter="20" class="saving-spinner"></mat-spinner>
+          } @else {
+            {{ 'common.save' | translate }}
+          }
+        </button>
+      </mat-card-actions>
+    }
+  </mat-card>
+</div>

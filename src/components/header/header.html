@@ -1,0 +1,29 @@
+<section class="header">
+  <mat-toolbar class="layout-header">
+    <span class="header-title">PMarzoa Test</span>
+    <span class="header-spacer"></span>
+
+    <mat-select
+      class="lang-select"
+      [value]="i18n.locale()"
+      (valueChange)="i18n.setLocale($event)"
+      [attr.aria-label]="'lang.select' | translate"
+    >
+      @for (locale of locales; track locale) {
+        <mat-option [value]="locale">{{ localeLabels[locale] }}</mat-option>
+      }
+    </mat-select>
+
+    <button
+      mat-icon-button
+      [matTooltip]="(themeService.theme() === 'light' ? 'theme.dark' : 'theme.light') | translate"
+      (click)="themeService.toggle()"
+      [attr.aria-label]="
+        (themeService.theme() === 'light' ? 'theme.dark' : 'theme.light') | translate
+      "
+      [attr.aria-pressed]="themeService.theme() === 'dark'"
+    >
+      <mat-icon>{{ themeService.theme() === 'light' ? 'dark_mode' : 'light_mode' }}</mat-icon>
+    </button>
+  </mat-toolbar>
+</section>
