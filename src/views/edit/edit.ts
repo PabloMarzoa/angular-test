@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TodosRestService } from '../../shared/rest/todos-rest.service';
-import { form, FormField } from '@angular/forms/signals';
+import { form, FormField, required, pattern } from '@angular/forms/signals';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -47,8 +47,9 @@ export class Edit implements OnInit {
     completed: false,
   });
 
-  protected readonly editForm = form(this.model, () => {
-    // Basic form configuration
+  protected readonly editForm = form(this.model, (s) => {
+    required(s.title);
+    pattern(s.title, /^[a-zA-Z0-9 ]*$/);
   });
 
   ngOnInit(): void {

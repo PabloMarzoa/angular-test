@@ -35,5 +35,10 @@
     "lastPageLabel": "Última página",
     "rangeEmpty": "0 de {{length}}",
     "range": "{{startIndex}} - {{endIndex}} de {{length}}"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "pattern": "Solo se permiten letras y números",
+    "unique": "Este título ya existe"
   }
 }

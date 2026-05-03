@@ -170,7 +170,7 @@ describe('TodosRestService', () => {
     service.updateFilter(filterValue);
     // Flush the HTTP request triggered by updateFilter
     httpTestingController.expectOne((r) => r.url.includes('/todos')).flush([]);
-    
+
     expect(service.currentFilter).toEqual(filterValue);
   });
 
@@ -186,7 +186,7 @@ describe('TodosRestService', () => {
 
   it('should persist changes to StorageService via effect', () => {
     const storageSpy = vi.spyOn(service['storageService'], 'setLocal');
-    
+
     service.updatePagination(5, 50);
     // Flush the HTTP request triggered by updatePagination
     httpTestingController.expectOne((r) => r.url.includes('/todos')).flush([]);

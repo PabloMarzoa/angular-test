@@ -3,8 +3,10 @@ import { DOCUMENT } from '@angular/common';
 import { ThemeService } from './theme.service';
 
 if (typeof btoa === 'undefined') {
-  (globalThis as any).btoa = (str: string) => (globalThis as any).Buffer.from(str).toString('base64');
-  (globalThis as any).atob = (str: string) => (globalThis as any).Buffer.from(str, 'base64').toString();
+  (globalThis as any).btoa = (str: string) =>
+    (globalThis as any).Buffer.from(str).toString('base64');
+  (globalThis as any).atob = (str: string) =>
+    (globalThis as any).Buffer.from(str, 'base64').toString();
 }
 
 const matchMediaStub =

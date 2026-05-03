@@ -4,8 +4,10 @@ import { TranslatePipe } from '../pipes/translate.pipe';
 import { SUPPORTED_LOCALES } from '../translation.types';
 
 if (typeof btoa === 'undefined') {
-  (globalThis as any).btoa = (str: string) => (globalThis as any).Buffer.from(str).toString('base64');
-  (globalThis as any).atob = (str: string) => (globalThis as any).Buffer.from(str, 'base64').toString();
+  (globalThis as any).btoa = (str: string) =>
+    (globalThis as any).Buffer.from(str).toString('base64');
+  (globalThis as any).atob = (str: string) =>
+    (globalThis as any).Buffer.from(str, 'base64').toString();
 }
 
 describe('TranslationService', () => {
