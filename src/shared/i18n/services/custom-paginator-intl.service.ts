@@ -28,12 +28,13 @@ export class CustomPaginatorIntl extends MatPaginatorIntl {
     }
     const len = Math.max(length, 0);
     const startIndex = page * pageSize;
-    const endIndex = startIndex < len ? Math.min(startIndex + pageSize, len) : startIndex + pageSize;
-    
-    return this.translationService.translate('paginator.range', { 
-      startIndex: startIndex + 1, 
-      endIndex, 
-      length: len 
+    const endIndex =
+      startIndex < len ? Math.min(startIndex + pageSize, len) : startIndex + pageSize;
+
+    return this.translationService.translate('paginator.range', {
+      startIndex: startIndex + 1,
+      endIndex,
+      length: len,
     });
   };
 }

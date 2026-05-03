@@ -51,10 +51,11 @@ export class Add {
 
   protected save(): void {
     this.isSaving.set(true);
-    this.todosRestService.addTodo(this.model()).pipe(
-      finalize(() => this.isSaving.set(false))
-    ).subscribe(() => {
-      this.router.navigate(['/todos']);
-    });
+    this.todosRestService
+      .addTodo(this.model())
+      .pipe(finalize(() => this.isSaving.set(false)))
+      .subscribe(() => {
+        this.router.navigate(['/todos']);
+      });
   }
 }

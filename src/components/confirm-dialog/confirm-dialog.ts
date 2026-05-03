@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslatePipe } from '../../shared/i18n/pipes/translate.pipe';
 
 export interface ConfirmDialogData {
@@ -23,8 +19,12 @@ export interface ConfirmDialogData {
       <p>{{ data.message | translate }}</p>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-button (click)="onCancel()">{{ (data.cancelText || 'common.cancel') | translate }}</button>
-      <button mat-flat-button color="warn" (click)="onConfirm()">{{ (data.confirmText || 'common.delete') | translate }}</button>
+      <button mat-button (click)="onCancel()">
+        {{ data.cancelText || 'common.cancel' | translate }}
+      </button>
+      <button mat-flat-button color="warn" (click)="onConfirm()">
+        {{ data.confirmText || 'common.delete' | translate }}
+      </button>
     </mat-dialog-actions>
   `,
   styles: `

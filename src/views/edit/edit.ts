@@ -76,10 +76,11 @@ export class Edit implements OnInit {
     if (!todoId) return;
 
     this.isSaving.set(true);
-    this.todosRestService.updateTodo(todoId, this.model()).pipe(
-      finalize(() => this.isSaving.set(false))
-    ).subscribe(() => {
-      this.router.navigate(['/todos']);
-    });
+    this.todosRestService
+      .updateTodo(todoId, this.model())
+      .pipe(finalize(() => this.isSaving.set(false)))
+      .subscribe(() => {
+        this.router.navigate(['/todos']);
+      });
   }
 }

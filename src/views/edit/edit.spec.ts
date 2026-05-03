@@ -14,8 +14,12 @@ describe('Edit', () => {
 
   beforeEach(async () => {
     mockTodosRestService = {
-      getTodo: vi.fn().mockReturnValue(of({ id: 1, userId: 2, title: 'Test Todo', completed: true })),
-      updateTodo: vi.fn().mockReturnValue(of({ id: 1, userId: 2, title: 'Updated Todo', completed: false })),
+      getTodo: vi
+        .fn()
+        .mockReturnValue(of({ id: 1, userId: 2, title: 'Test Todo', completed: true })),
+      updateTodo: vi
+        .fn()
+        .mockReturnValue(of({ id: 1, userId: 2, title: 'Updated Todo', completed: false })),
     };
 
     mockRouter = {
@@ -53,9 +57,9 @@ describe('Edit', () => {
   it('should create and populate model if state is provided', () => {
     const mockTodo = { userId: 2, title: 'Test Todo', completed: true };
     vi.stubGlobal('history', { state: { todo: mockTodo } });
-    
+
     fixture.detectChanges();
-    
+
     expect(component).toBeTruthy();
     expect(component.id()).toBe(1);
     expect((component as any).model()).toEqual(mockTodo);
@@ -84,10 +88,10 @@ describe('Edit', () => {
   it('should call updateTodo and navigate on save', () => {
     const mockTodo = { userId: 2, title: 'Test Todo', completed: true };
     vi.stubGlobal('history', { state: { todo: mockTodo } });
-    
+
     fixture.detectChanges();
     (component as any).save();
-    
+
     expect(component.isSaving()).toBe(false);
     expect(mockTodosRestService.updateTodo).toHaveBeenCalledWith(1, mockTodo);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/todos']);

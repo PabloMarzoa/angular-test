@@ -1,13 +1,23 @@
-  <section class="filter-section">
-    <app-filter [isDisabled]="isLoading()" (filterChanged)="onFilterChanged($event)" />
-    <button mat-fab color="primary" class="add-todo-btn" aria-label="Add todo" (click)="navigateToAdd()">
-      <mat-icon>add</mat-icon>
-    </button>
-  </section>
+<section class="filter-section">
+  <app-filter
+    [isDisabled]="isLoading()"
+    [initialFilter]="currentFilter"
+    (filterChanged)="onFilterChanged($event)"
+  />
+  <button
+    mat-fab
+    color="primary"
+    class="add-todo-btn"
+    aria-label="Add todo"
+    (click)="navigateToAdd()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</section>
 
 @if (isLoading()) {
   <section class="list-loader">
-<mat-spinner></mat-spinner>
+    <mat-spinner></mat-spinner>
   </section>
 } @else {
   <section>

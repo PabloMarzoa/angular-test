@@ -21,14 +21,12 @@ describe('Dashboard', () => {
       loadTodos: vi.fn(),
       updatePagination: vi.fn(),
       deleteTodo: vi.fn().mockReturnValue(of(null)),
-      getTodo: vi.fn().mockReturnValue(of({ id: 1, userId: 1, title: 'Loaded', completed: false }))
+      getTodo: vi.fn().mockReturnValue(of({ id: 1, userId: 1, title: 'Loaded', completed: false })),
     };
 
     await TestBed.configureTestingModule({
       imports: [Dashboard],
-      providers: [
-        { provide: TodosRestService, useValue: mockTodosRestService }
-      ]
+      providers: [{ provide: TodosRestService, useValue: mockTodosRestService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Dashboard);
@@ -73,7 +71,9 @@ describe('Dashboard', () => {
   it('should delete a todo when confirmed via dialog', () => {
     const mockTodo = { id: 1, userId: 1, title: 'Test Todo', completed: false };
     const dialogRefSpyObj = { afterClosed: () => of(true), close: vi.fn() };
-    const dialogSpy = vi.spyOn((component as any).dialog, 'open').mockReturnValue(dialogRefSpyObj as any);
+    const dialogSpy = vi
+      .spyOn((component as any).dialog, 'open')
+      .mockReturnValue(dialogRefSpyObj as any);
 
     (component as any).deleteTodo(mockTodo);
 
@@ -85,7 +85,9 @@ describe('Dashboard', () => {
   it('should NOT delete a todo when cancelled via dialog', () => {
     const mockTodo = { id: 1, userId: 1, title: 'Test Todo', completed: false };
     const dialogRefSpyObj = { afterClosed: () => of(false), close: vi.fn() };
-    const dialogSpy = vi.spyOn((component as any).dialog, 'open').mockReturnValue(dialogRefSpyObj as any);
+    const dialogSpy = vi
+      .spyOn((component as any).dialog, 'open')
+      .mockReturnValue(dialogRefSpyObj as any);
 
     (component as any).deleteTodo(mockTodo);
 
@@ -107,7 +109,7 @@ describe('Dashboard', () => {
       { id: 2, userId: 1, title: 'Master Vitest', completed: true },
     ]);
     fixture.detectChanges();
-    
+
     const compiled = fixture.nativeElement as HTMLElement;
     const items = compiled.querySelectorAll('mat-list-item');
     expect(items.length).toBe(2);

@@ -13,7 +13,9 @@ describe('Add', () => {
 
   beforeEach(async () => {
     mockTodosRestService = {
-      addTodo: vi.fn().mockReturnValue(of({ id: 201, userId: 1, title: 'New Todo', completed: false })),
+      addTodo: vi
+        .fn()
+        .mockReturnValue(of({ id: 201, userId: 1, title: 'New Todo', completed: false })),
     };
 
     mockRouter = {
@@ -50,14 +52,18 @@ describe('Add', () => {
 
   it('should call addTodo and navigate on save', () => {
     fixture.detectChanges();
-    
+
     // Set some data
     (component as any).model.set({ userId: 1, title: 'New Todo', completed: false });
-    
+
     (component as any).save();
-    
+
     expect(component.isSaving()).toBe(false);
-    expect(mockTodosRestService.addTodo).toHaveBeenCalledWith({ userId: 1, title: 'New Todo', completed: false });
+    expect(mockTodosRestService.addTodo).toHaveBeenCalledWith({
+      userId: 1,
+      title: 'New Todo',
+      completed: false,
+    });
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/todos']);
   });
 });

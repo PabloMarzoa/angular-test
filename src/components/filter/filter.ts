@@ -32,6 +32,7 @@ export class Filter {
   }
 
   readonly filterChanged = output<FilterValue>();
+  readonly initialFilter = input<FilterValue | null>(null);
 
   protected readonly numberOptions = [1, 2, 3, 4];
 
@@ -46,10 +47,29 @@ export class Filter {
     disabled(s.title, () => this.isDisabled());
   });
 
+  private isInitialized = false;
+
   constructor() {
+    effect(
+      () => {
+        const initial = this.initialFilter();
+        if (initial && !this.isInitialized) {
+          this.isInitialized = true;
+          untracked(() => {
+            this.model.set({
+              userId: initial.userId ?? 0,
+              title: initial.title ?? '',
+            });
+          });
+        }
+      },
+      { allowSignalWrites: true },
+    );
+
     effect(() => {
       const value = this.model();
       if (!untracked(() => this.filterForm().dirty())) return;
+
       this.filterChanged.emit({
         userId: value.userId === 0 ? null : value.userId,
         title: value.title,

@@ -36,18 +36,14 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           } else {
             // Navigate to dashboard if not already there
             if (!router.url.startsWith('/todos') || router.url.includes('/:id')) {
-               // If it's a specific route or not dashboard, go to list
-               // Note: router.url is the current path. 
-               // User said "si no estás en la pantalla dashboard te lleve a ella"
-               // Dashboard list is at /todos
-               if (router.url !== '/todos') {
-                 router.navigate(['/todos']);
-               }
+              if (router.url !== '/todos') {
+                router.navigate(['/todos']);
+              }
             }
             return throwError(() => error);
           }
-        })
+        }),
       );
-    })
+    }),
   );
 };

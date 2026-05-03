@@ -26,9 +26,9 @@ describe('ThemeService', () => {
     });
 
     if (storedTheme) {
-      window.localStorage.setItem('theme', storedTheme);
+      document.cookie = `theme=${btoa(storedTheme)}; path=/`;
     } else {
-      window.localStorage.removeItem('theme');
+      document.cookie = 'theme=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     }
 
     TestBed.resetTestingModule();
@@ -36,7 +36,10 @@ describe('ThemeService', () => {
     service = TestBed.inject(ThemeService);
   }
 
-  afterEach(() => window.localStorage.removeItem('theme'));
+  afterEach(() => {
+    document.cookie = 'theme=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    window.localStorage.removeItem('theme');
+  });
 
   it('should default to light when no preference is stored', () => {
     configureModule();
@@ -67,11 +70,10 @@ describe('ThemeService', () => {
     expect(service.theme()).toBe('light');
   });
 
-  it('should persist the theme to localStorage on toggle', () => {
+  it('should persist the theme to cookie on toggle', () => {
     configureModule();
     service.toggle();
-    const doc = TestBed.inject(DOCUMENT);
-    expect(doc.defaultView?.localStorage.getItem('theme')).toBe('dark');
+    expect(document.cookie).toContain('theme=' + btoa('dark'));
   });
 
   it('should apply color-scheme to document.body on toggle', () => {

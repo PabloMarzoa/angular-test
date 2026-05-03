@@ -16,7 +16,16 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatListModule, MatIcon, TranslatePipe, MatPaginatorModule, MatProgressSpinnerModule, Filter, MatDialogModule, MatButtonModule],
+  imports: [
+    MatListModule,
+    MatIcon,
+    TranslatePipe,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    Filter,
+    MatDialogModule,
+    MatButtonModule,
+  ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,6 +58,10 @@ export class Dashboard implements OnInit {
     return this.todosRestService.pageSizeOptions();
   }
 
+  get currentFilter(): FilterValue {
+    return this.todosRestService.currentFilter;
+  }
+
   protected onPageChange(event: PageEvent): void {
     this.todosRestService.updatePagination(event.pageIndex, event.pageSize);
   }
@@ -63,14 +76,17 @@ export class Dashboard implements OnInit {
 
   protected editTodo(todo: TodosItem): void {
     this.todosRestService.isLoading.set(true);
-    this.todosRestService.getTodo(todo.id).pipe(
-      take(1),
-      finalize(() => this.todosRestService.isLoading.set(false))
-    ).subscribe({
-      next: (loadedTodo) => {
-        this.router.navigate(['/todos/', todo.id], { state: { todo: loadedTodo } });
-      }
-    });
+    this.todosRestService
+      .getTodo(todo.id)
+      .pipe(
+        take(1),
+        finalize(() => this.todosRestService.isLoading.set(false)),
+      )
+      .subscribe({
+        next: (loadedTodo) => {
+          this.router.navigate(['/todos/', todo.id], { state: { todo: loadedTodo } });
+        },
+      });
   }
 
   protected deleteTodo(todo: TodosItem): void {
@@ -84,15 +100,18 @@ export class Dashboard implements OnInit {
       width: '400px',
     });
 
-    dialogRef.afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.todosRestService
-          .deleteTodo(todo.id)
-          .pipe(take(1))
-          .subscribe(() => {
-            this.todosRestService.loadTodos();
-          });
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.todosRestService
+            .deleteTodo(todo.id)
+            .pipe(take(1))
+            .subscribe(() => {
+              this.todosRestService.loadTodos();
+            });
+        }
+      });
   }
 }

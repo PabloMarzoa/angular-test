@@ -7,20 +7,7 @@ describe('TranslationService', () => {
   let fetchSpy: any;
 
   beforeEach(() => {
-    // Mock localStorage
-    const store: Record<string, string> = {};
-    const mockLocalStorage = {
-      getItem: (key: string) => store[key] || null,
-      setItem: (key: string, value: string) => {
-        store[key] = value;
-      },
-      removeItem: (key: string) => {
-        delete store[key];
-      },
-    };
-    Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
-
-    // Mock fetch
+    document.cookie = 'locale=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     fetchSpy = vi.spyOn(window, 'fetch').mockResolvedValue({
       ok: true,
       json: async () => ({ common: { save: 'Save' }, theme: { dark: 'Dark' } }),
@@ -43,7 +30,7 @@ describe('TranslationService', () => {
   it('should change locale and load translations', async () => {
     await service.setLocale('es');
     expect(service.locale()).toBe('es');
-    expect(window.localStorage.getItem('locale')).toBe('es');
+    expect(document.cookie).toContain('locale=' + btoa('es'));
     expect(fetchSpy).toHaveBeenCalledWith('/i18n/es.json');
   });
 
