@@ -128,25 +128,42 @@ We use **Vitest** for a significantly faster testing experience and better integ
 
   
 
+### 6. Husky
+
+We use **Husky** to validate the code before committing it. This allows us to catch errors early and provide user feedback.
+
 ---
 
   
 
 ## 📸 Screenshots
 
-  
 1. **Dashboard View**
+   ![Dashboard View](docs/screenshots/dashboard.png)
+   Main list showing todos, filters, and pagination.
 
-- Description: Main list showing todos, filters, and pagination.
+2. **Dashboard with Filter**
+   ![Dashboard Filter](docs/screenshots/dashboard-filter.png)
+   Dynamic filtering by User ID and Title.
 
-1. **Add/Edit Form**
+3. **Dark Mode**
+   ![Dark Mode](docs/screenshots/dashboard-dark.png)
+   Full dark mode support for a premium visual experience.
 
-- Description: Showing custom validators (pattern and unique title check).
+4. **Add Todo Form**
+   ![Add Todo](docs/screenshots/add.png)
+   Interface for creating new todos.
 
-1. **Theme Switch**
+5. **Edit with Validation**
+   ![Edit Validator](docs/screenshots/edit-validator-exists.png)
+   Custom validators in action, including duplicate title check via API.
 
-- Description: The application running in Dark Mode.
+6. **Delete Confirmation**
+   ![Delete Confirmation](docs/screenshots/ask-delete.png)
+   Safety confirmation modal before deleting an item.
 
-1. **Error Handling**
+7. **Persistent Storage**
+   ![Storage Cookies](docs/screenshots/storage-cookies.png)
+   Encoded persistence for settings and preferences in Cookies and LocalStorage.
 
-- Description: The global error interceptor showing a retry dialog.
+---
