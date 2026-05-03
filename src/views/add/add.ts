@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { TodosRestService } from '../../shared/rest/todos-rest.service';
-import { form, FormField } from '@angular/forms/signals';
+import { form, FormField, required, pattern, debounce, validateHttp } from '@angular/forms/signals';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -11,7 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TranslatePipe } from '../../shared/i18n/pipes/translate.pipe';
 import { finalize } from 'rxjs/operators';
-import type { TodoNew } from '../../shared/models/todos';
+import type { TodoNew, TodosItem } from '../../shared/models/todos';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-add',
@@ -43,8 +44,15 @@ export class Add {
     completed: false,
   });
 
-  protected readonly addForm = form(this.model, () => {
-    // Basic form configuration
+  protected readonly addForm = form(this.model, (s) => {
+    required(s.title);
+    pattern(s.title, /^[a-zA-Z0-9 ]*$/);
+    debounce(s.title, 750);
+    validateHttp(s.title, {
+      request: (ctx) => `${environment.apiUrl}/todos?title=${ctx.value()}`,
+      onSuccess: (result: TodosItem[]) => (result.length > 0 ? { kind: 'unique' } : null),
+      onError: () => null,
+    });
   });
 
   protected cancel(): void {
