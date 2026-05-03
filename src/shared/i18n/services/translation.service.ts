@@ -5,7 +5,7 @@ import {
   SupportedLocale,
   Translations,
 } from '../translation.types';
-import { StorageService } from '../../services/storage.service';
+import { StorageService } from '../../storage/storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class TranslationService {

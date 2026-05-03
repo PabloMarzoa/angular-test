@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { inject, Injectable, signal } from '@angular/core';
-import { StorageService } from '../services/storage.service';
+import { StorageService } from '../storage/storage.service';
 
 export type Theme = 'light' | 'dark';
 

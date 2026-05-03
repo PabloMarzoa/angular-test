@@ -1,59 +1,169 @@
-# AngularTest
+# Angular Todo Management System
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.9.
+  
 
-## Development server
+A robust, modern and responsive Todo Management application built with Angular 21, leveraging the latest features like Signals, standalone components, and advanced reactive patterns.
 
-To start a local development server, run:
+  
 
-```bash
-ng serve
-```
+## 🚀 Installation and Execution
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+  
 
-## Code scaffolding
+### Prerequisites
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Node.js (Latest LTS recommended)
 
-```bash
-ng generate component component-name
-```
+- npm (v10+)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+  
 
-```bash
-ng generate --help
-```
+### Setup
 
-## Building
-
-To build the project run:
+1. Clone the repository:
 
 ```bash
-ng build
+
+git clone https://github.com/PabloMarzoa/angular-test.git
+
+cd angular-test
+
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+  
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+2. Install dependencies:
 
 ```bash
-ng test
+
+npm install
+
 ```
 
-## Running end-to-end tests
+  
 
-For end-to-end (e2e) testing, run:
+3. Start the development server:
 
 ```bash
-ng e2e
+
+npm run start
+
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+The app will be available at `http://localhost:4200`.
 
-## Additional Resources
+  
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Other Commands
+
+- **Linting**: `npm run lint` (ESLint + Prettier check)
+
+- **Formatting**: `npm run format` (Prettier)
+
+- **Testing**: `npm run test` (Vitest)
+
+- **Coverage**: `npm run test:coverage` (Vitest coverage report)
+
+  
+
+---
+
+  
+
+## 🏗️ Architecture
+
+  
+
+The project follows a modular and scalable architecture based on **Angular Best Practices**:
+
+  
+
+- **Views**: High-level page components (Dashboard, Add, Edit) located in `src/views`.
+
+- **Components**: Reusable UI elements (Filter, Header, ConfirmDialog) in `src/components`.
+
+- **Shared**: Code available to any part of the application, grouped by functionality (translations, REST services, theme configuration, models, etc.)
+
+  
+
+---
+
+  
+
+## 🛠️ Technical Decisions
+
+  
+
+### 1. Signal-Based Forms
+
+We opted for the newer `@angular/forms/signals` approach to ensure fine-grained reactivity and seamless integration with the application's overall signal-based state. This allows for cleaner code and better performance compared to traditional Reactive Forms.
+
+  
+
+### 2. Dual-Layer Persistence (`StorageService`)
+
+- **Cookies**: Used for user preferences like `theme` and `locale` to ensure they are available even across different subdomains or early in the request lifecycle.
+
+- **LocalStorage**: Used for UI state like `filters` and `pagination` to maintain the user's view context.
+
+- **Security**: All data is **Base64 encoded** before storage to provide a basic layer of obfuscation and privacy for user data.
+
+  
+
+### 3. Global Error Interceptor
+
+Instead of handling errors in every component, a global `ErrorInterceptor` catches HTTP failures. It displays a user-friendly modal with "Retry" and "Cancel" options, centralizing error UX and reducing boilerplate.
+
+  
+
+### 4. Internationalization (i18n)
+
+A custom `TranslationService` was implemented using JSON assets. This avoids heavy external dependencies while providing a reactive way to switch languages without page reloads.
+
+  
+
+### 5. Vitest over Karma/Jasmine
+
+We use **Vitest** for a significantly faster testing experience and better integration with modern tooling. The project maintains a **>80% code coverage** threshold to ensure reliability.
+
+  
+
+### 6. Husky
+
+We use **Husky** to validate the code before committing it. This allows us to catch errors early and provide user feedback.
+
+---
+
+  
+
+## 📸 Screenshots
+
+1. **Dashboard View**
+   ![Dashboard View](docs/screenshots/dashboard.png)
+   Main list showing todos, filters, and pagination.
+
+2. **Dashboard with Filter**
+   ![Dashboard Filter](docs/screenshots/dashboard-filter.png)
+   Dynamic filtering by User ID and Title.
+
+3. **Dark Mode**
+   ![Dark Mode](docs/screenshots/dashboard-dark.png)
+   Full dark mode support for a premium visual experience.
+
+4. **Add Todo Form**
+   ![Add Todo](docs/screenshots/add.png)
+   Interface for creating new todos.
+
+5. **Edit with Validation**
+   ![Edit Validator](docs/screenshots/edit-validator-exists.png)
+   Custom validators in action, including duplicate title check via API.
+
+6. **Delete Confirmation**
+   ![Delete Confirmation](docs/screenshots/ask-delete.png)
+   Safety confirmation modal before deleting an item.
+
+7. **Persistent Storage**
+   ![Storage Cookies](docs/screenshots/storage-cookies.png)
+   Encoded persistence for settings and preferences in Cookies and LocalStorage.
+
+---

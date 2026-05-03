@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { effect, inject, Injectable, signal, untracked } from '@angular/core';
 import type { TodosItem, TodoNew } from '../models/todos';
 import type { FilterValue } from '../../components/filter/filter.model';
-import { delay, finalize, type Observable } from 'rxjs';
-import { StorageService } from '../services/storage.service';
+import { finalize, type Observable } from 'rxjs';
+import { StorageService } from '../storage/storage.service';
 import { environment } from '../../environments/environment';
 
 const STORAGE_KEYS = {
@@ -65,10 +65,7 @@ export class TodosRestService {
 
     this.httpClient
       .get<TodosItem[]>(`${this.API}/todos`, { params })
-      .pipe(
-        delay(500),
-        finalize(() => this.isLoading.set(false)),
-      )
+      .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe((data) => this.todos.set(data));
   }
 
@@ -98,10 +95,10 @@ export class TodosRestService {
   }
 
   public updateTodo(id: number, todo: TodoNew): Observable<TodosItem> {
-    return this.httpClient.put<TodosItem>(`${this.API}/todos/${id}`, todo).pipe(delay(500));
+    return this.httpClient.put<TodosItem>(`${this.API}/todos/${id}`, todo);
   }
 
   public addTodo(todo: TodoNew): Observable<TodosItem> {
-    return this.httpClient.post<TodosItem>(`${this.API}/todos`, todo).pipe(delay(500));
+    return this.httpClient.post<TodosItem>(`${this.API}/todos`, todo);
   }
 }
