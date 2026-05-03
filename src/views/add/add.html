@@ -19,6 +19,11 @@
       <mat-form-field>
         <mat-label>{{ 'todos.title' | translate }}</mat-label>
         <input matInput type="text" [formField]="addForm.title" />
+        @if (addForm.title().invalid() && addForm.title().touched()) {
+          @for (error of addForm.title().errors(); track error.kind) {
+            <mat-error>{{ 'validation.' + error.kind | translate }}</mat-error>
+          }
+        }
       </mat-form-field>
 
       <mat-checkbox [formField]="addForm.completed" color="primary">

@@ -3,10 +3,12 @@ import { StorageService } from './storage.service';
 
 if (typeof btoa === 'undefined') {
   Object.defineProperty(globalThis, 'btoa', {
-    value: (str: string) => (globalThis as unknown as { Buffer: any }).Buffer.from(str).toString('base64'),
+    value: (str: string) =>
+      (globalThis as unknown as { Buffer: any }).Buffer.from(str).toString('base64'),
   });
   Object.defineProperty(globalThis, 'atob', {
-    value: (str: string) => (globalThis as unknown as { Buffer: any }).Buffer.from(str, 'base64').toString(),
+    value: (str: string) =>
+      (globalThis as unknown as { Buffer: any }).Buffer.from(str, 'base64').toString(),
   });
 }
 
@@ -83,9 +85,9 @@ describe('StorageService', () => {
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {
         // Mock error console
       });
-      
+
       service.setLocal('key', 'value');
-      
+
       expect(consoleSpy).toHaveBeenCalled();
       spy.mockRestore();
       consoleSpy.mockRestore();
@@ -98,9 +100,9 @@ describe('StorageService', () => {
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {
         // Mock error console
       });
-      
+
       const result = service.getLocal('key');
-      
+
       expect(result).toBeNull();
       expect(consoleSpy).toHaveBeenCalled();
       spy.mockRestore();

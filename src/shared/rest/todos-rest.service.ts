@@ -4,6 +4,7 @@ import type { TodosItem, TodoNew } from '../models/todos';
 import type { FilterValue } from '../../components/filter/filter.model';
 import { delay, finalize, type Observable } from 'rxjs';
 import { StorageService } from '../services/storage.service';
+import { environment } from '../../environments/environment';
 
 const STORAGE_KEYS = {
   FILTER: 'todos_filter',
@@ -12,7 +13,7 @@ const STORAGE_KEYS = {
 
 @Injectable({ providedIn: 'root' })
 export class TodosRestService {
-  private readonly API = 'https://jsonplaceholder.typicode.com';
+  private readonly API = environment.apiUrl;
   private readonly httpClient = inject(HttpClient);
   private readonly storageService = inject(StorageService);
 

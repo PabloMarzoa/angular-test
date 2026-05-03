@@ -50,21 +50,18 @@ export class Filter {
   private isInitialized = false;
 
   constructor() {
-    effect(
-      () => {
-        const initial = this.initialFilter();
-        if (initial && !this.isInitialized) {
-          this.isInitialized = true;
-          untracked(() => {
-            this.model.set({
-              userId: initial.userId ?? 0,
-              title: initial.title ?? '',
-            });
+    effect(() => {
+      const initial = this.initialFilter();
+      if (initial && !this.isInitialized) {
+        this.isInitialized = true;
+        untracked(() => {
+          this.model.set({
+            userId: initial.userId ?? 0,
+            title: initial.title ?? '',
           });
-        }
-      },
-      { allowSignalWrites: true },
-    );
+        });
+      }
+    });
 
     effect(() => {
       const value = this.model();
