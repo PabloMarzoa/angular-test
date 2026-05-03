@@ -5,10 +5,12 @@ import {
   SupportedLocale,
   Translations,
 } from '../translation.types';
+import { StorageService } from '../../services/storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class TranslationService {
   private readonly localeId = inject(LOCALE_ID);
+  private readonly storageService = inject(StorageService);
 
   /** Currently active locale. */
   readonly locale = signal<SupportedLocale>(this.resolveInitialLocale());
@@ -32,7 +34,9 @@ export class TranslationService {
   async setLocale(locale: SupportedLocale): Promise<void> {
     if (this.locale() === locale) return;
     this.locale.set(locale);
-    localStorage.setItem('locale', locale);
+    this.storageService.setCookie('locale', locale);
+    // Optional cleanup of localStorage to avoid duplication
+    this.storageService.removeLocal('locale');
     await this.load(locale);
   }
 
@@ -72,10 +76,15 @@ export class TranslationService {
   }
 
   private resolveInitialLocale(): SupportedLocale {
-    // 1. Persisted user preference
-    const stored = localStorage.getItem('locale');
-    if (stored && SUPPORTED_LOCALES.includes(stored as SupportedLocale)) {
-      return stored as SupportedLocale;
+    // 1. Persisted user preference (Cookie preferred, LocalStorage as fallback for migration)
+    const storedCookie = this.storageService.getCookie('locale');
+    if (storedCookie && SUPPORTED_LOCALES.includes(storedCookie as SupportedLocale)) {
+      return storedCookie as SupportedLocale;
+    }
+
+    const storedLocal = this.storageService.getLocal<string>('locale');
+    if (storedLocal && SUPPORTED_LOCALES.includes(storedLocal as SupportedLocale)) {
+      return storedLocal as SupportedLocale;
     }
     // 2. Angular LOCALE_ID (e.g. 'es-ES' → 'es')
     const angularLocale = this.localeId?.split('-')[0] as SupportedLocale;

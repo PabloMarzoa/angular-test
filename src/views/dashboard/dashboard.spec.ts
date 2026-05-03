@@ -20,15 +20,14 @@ describe('Dashboard', () => {
       pageSizeOptions: signal([10, 20, 30]),
       loadTodos: vi.fn(),
       updatePagination: vi.fn(),
+      updateFilter: vi.fn(),
       deleteTodo: vi.fn().mockReturnValue(of(null)),
-      getTodo: vi.fn().mockReturnValue(of({ id: 1, userId: 1, title: 'Loaded', completed: false }))
+      getTodo: vi.fn().mockReturnValue(of({ id: 1, userId: 1, title: 'Loaded', completed: false })),
     };
 
     await TestBed.configureTestingModule({
       imports: [Dashboard],
-      providers: [
-        { provide: TodosRestService, useValue: mockTodosRestService }
-      ]
+      providers: [{ provide: TodosRestService, useValue: mockTodosRestService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Dashboard);
@@ -73,7 +72,9 @@ describe('Dashboard', () => {
   it('should delete a todo when confirmed via dialog', () => {
     const mockTodo = { id: 1, userId: 1, title: 'Test Todo', completed: false };
     const dialogRefSpyObj = { afterClosed: () => of(true), close: vi.fn() };
-    const dialogSpy = vi.spyOn((component as any).dialog, 'open').mockReturnValue(dialogRefSpyObj as any);
+    const dialogSpy = vi
+      .spyOn((component as any).dialog, 'open')
+      .mockReturnValue(dialogRefSpyObj as any);
 
     (component as any).deleteTodo(mockTodo);
 
@@ -85,7 +86,9 @@ describe('Dashboard', () => {
   it('should NOT delete a todo when cancelled via dialog', () => {
     const mockTodo = { id: 1, userId: 1, title: 'Test Todo', completed: false };
     const dialogRefSpyObj = { afterClosed: () => of(false), close: vi.fn() };
-    const dialogSpy = vi.spyOn((component as any).dialog, 'open').mockReturnValue(dialogRefSpyObj as any);
+    const dialogSpy = vi
+      .spyOn((component as any).dialog, 'open')
+      .mockReturnValue(dialogRefSpyObj as any);
 
     (component as any).deleteTodo(mockTodo);
 
@@ -107,10 +110,28 @@ describe('Dashboard', () => {
       { id: 2, userId: 1, title: 'Master Vitest', completed: true },
     ]);
     fixture.detectChanges();
-    
+
     const compiled = fixture.nativeElement as HTMLElement;
     const items = compiled.querySelectorAll('mat-list-item');
     expect(items.length).toBe(2);
     expect(compiled.querySelector('mat-spinner')).toBeFalsy();
+  });
+
+  it('should call updateFilter on filter change', () => {
+    const filterValue = { userId: 1, title: 'test' };
+    (component as any).onFilterChanged(filterValue);
+    expect(mockTodosRestService.updateFilter).toHaveBeenCalledWith(filterValue);
+  });
+
+  it('should navigate to add page on navigateToAdd', () => {
+    const navigateSpy = vi.spyOn((component as any).router, 'navigate');
+    (component as any).navigateToAdd();
+    expect(navigateSpy).toHaveBeenCalledWith(['/add']);
+  });
+
+  it('should return current filter via getter', () => {
+    const filterValue = { userId: 1, title: 'test' };
+    mockTodosRestService.currentFilter = filterValue;
+    expect(component.currentFilter).toEqual(filterValue);
   });
 });

@@ -1,11 +1,13 @@
 import { DOCUMENT } from '@angular/common';
 import { inject, Injectable, signal } from '@angular/core';
+import { StorageService } from '../services/storage.service';
 
 export type Theme = 'light' | 'dark';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private readonly document = inject(DOCUMENT);
+  private readonly storageService = inject(StorageService);
 
   readonly theme = signal<Theme>('light');
 
@@ -19,7 +21,8 @@ export class ThemeService {
     const next: Theme = this.theme() === 'light' ? 'dark' : 'light';
     this.theme.set(next);
     this.applyTheme(next);
-    this.document.defaultView?.localStorage.setItem('theme', next);
+    this.storageService.setCookie('theme', next);
+    this.storageService.removeLocal('theme');
   }
 
   private applyTheme(theme: Theme): void {
@@ -27,8 +30,15 @@ export class ThemeService {
   }
 
   private resolveInitialTheme(): Theme {
-    const stored = this.document.defaultView?.localStorage.getItem('theme') as Theme | null;
-    if (stored === 'light' || stored === 'dark') return stored;
+    // 1. Cookie preferred
+    const storedCookie = this.storageService.getCookie('theme') as Theme | null;
+    if (storedCookie === 'light' || storedCookie === 'dark') return storedCookie;
+
+    // 2. LocalStorage fallback
+    const storedLocal = this.storageService.getLocal<Theme>('theme');
+    if (storedLocal === 'light' || storedLocal === 'dark') return storedLocal;
+
+    // 3. System preference
     const prefersDark = this.document.defaultView?.matchMedia(
       '(prefers-color-scheme: dark)',
     ).matches;

@@ -5,4 +5,4 @@ export interface TodosItem {
   title: string;
 }
 
-export interface TodoNew extends Omit<TodosItem, 'id'> {}
+export type TodoNew = Omit<TodosItem, 'id'>;

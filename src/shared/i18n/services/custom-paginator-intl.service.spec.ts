@@ -67,7 +67,7 @@ describe('CustomPaginatorIntl', () => {
     // Simulate loading finished
     mockLoadingSignal.set(false);
     TestBed.flushEffects();
-    
+
     // effect should trigger again and call changes.next()
     expect(changesSpy).toHaveBeenCalledTimes(2);
   });

@@ -3,7 +3,15 @@
     "confirmDelete": "¿Estás seguro de que quieres eliminar este todo?",
     "save": "Guardar",
     "cancel": "Cancelar",
-    "delete": "Eliminar"
+    "delete": "Eliminar",
+    "retry": "Reintentar"
+  },
+  "httpErrors": {
+    "title": "Error",
+    "404": "No se ha encontrado el recurso solicitado.",
+    "500": "Ha ocurrido un error en el servidor. Por favor, inténtelo más tarde.",
+    "0": "Error de red. Por favor, compruebe su conexión.",
+    "default": "Ha ocurrido un error inesperado."
   },
   "lang": {
     "select": "Seleccionar idioma"
