@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  angular-test:
+    image: tu-usuario-docker/angular-test:latest
+    container_name: angular-test-pwa
+    ports:
+      - target: 80
+        published: ${WEBUI_PORT:-5080}
+        protocol: tcp
+    environment:
+      - TZ=Europe/Madrid
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: angular-test
+  author: Tu Nombre
+  category: Productivity
+  description:
+    en_us: "Angular PWA application built from the feature/pwa branch. A modern, progressive web application with offline support."
+    es_es: "Aplicación Angular PWA construida desde la rama feature/pwa. Una aplicación web progresiva moderna con soporte offline."
+  developer: Tu Nombre
+  icon: https://cdn.jsdelivr.net/gh/tu-usuario/angular-test@feature/pwa/icon.png
+  tagline:
+    en_us: "Angular Progressive Web App"
+    es_es: "Aplicación Web Progresiva Angular"
+  thumbnail: https://cdn.jsdelivr.net/gh/tu-usuario/angular-test@feature/pwa/screenshot.png
+  title:
+    en_us: "Angular Test PWA"
+    es_es: "Angular Test PWA"
+  tips:
+    before_install:
+      en_us: |
+        This is an Angular Progressive Web Application.
+        
+        **Features:**
+        - Offline support with Service Worker
+        - Installable as native app
+        - Fast loading and caching
+        
+        **Access:**
+        After installation, access it at: http://your-zimaos-ip:port
+        
+        Built from: feature/pwa branch
+      es_es: |
+        Esta es una Aplicación Web Progresiva Angular.
+        
+        **Características:**
+        - Soporte offline con Service Worker
+        - Instalable como aplicación nativa
+        - Carga rápida y caché inteligente
+        
+        **Acceso:**
+        Después de instalar, accédela en: http://tu-ip-zimaos:puerto
+        
+        Construido desde: rama feature/pwa
+  index: "/"
+  port_map: "${WEBUI_PORT:-5080}"
