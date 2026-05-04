@@ -39,7 +39,7 @@ describe('TranslationService', () => {
     await service.setLocale('es');
     expect(service.locale()).toBe('es');
     expect(document.cookie).toContain('locale=' + btoa('es'));
-    expect(fetchSpy).toHaveBeenCalledWith('/i18n/es.json');
+    expect(fetchSpy).toHaveBeenCalledWith('i18n/es.json');
   });
 
   it('should translate keys correctly', async () => {
@@ -59,6 +59,7 @@ describe('TranslationService', () => {
       json: async () => ({ greeting: 'Hello {{name}}' }),
     } as Response);
     await service.setLocale('es'); // force reload
+    expect(fetchSpy).toHaveBeenCalledWith('i18n/es.json');
     expect(service.translate('greeting', { name: 'World' })).toBe('Hello World');
   });
 
@@ -81,6 +82,7 @@ describe('TranslationService', () => {
       json: async () => ({ a: { b: { c: 'Nested' } } }),
     } as Response);
     await service.setLocale('es');
+    expect(fetchSpy).toHaveBeenCalledWith('i18n/es.json');
     expect(service.translate('a.b.c')).toBe('Nested');
     expect(service.translate('a.b.x')).toBe('a.b.x'); // Missing leaf
     expect(service.translate('a.x.c')).toBe('a.x.c'); // Missing intermediate

@@ -1,0 +1,119 @@
+
+> angular-test@0.0.0 test:coverage
+> ng test --configuration=coverage
+
+Using Vitest configuration file: /Users/pmarzoa/dev/one-test/angular-test/vitest.coverage.config.ts
+❯ Building...
+✔ Building...
+Initial chunk files                                        | Names                                                   |  Raw size
+spec-views-dashboard-dashboard.js                          | spec-views-dashboard-dashboard                          |  19.83 kB | 
+spec-views-edit-edit.js                                    | spec-views-edit-edit                                    |  17.40 kB | 
+spec-views-add-add.js                                      | spec-views-add-add                                      |  14.05 kB | 
+styles.css                                                 | styles                                                  |   8.82 kB | 
+chunk-MZKMOL6S.js                                          | -                                                       |   7.52 kB | 
+chunk-CVZVFDSR.js                                          | -                                                       |   7.50 kB | 
+spec-shared-rest-todos-rest.service.js                     | spec-shared-rest-todos-rest.service                     |   6.37 kB | 
+spec-shared-i18n-services-custom-paginator-intl.service.js | spec-shared-i18n-services-custom-paginator-intl.service |   4.97 kB | 
+chunk-RSTWSNOR.js                                          | -                                                       |   4.75 kB | 
+chunk-R73PEPIG.js                                          | -                                                       |   4.39 kB | 
+chunk-LUPG5CHX.js                                          | -                                                       |   4.21 kB | 
+chunk-YX4JKOHA.js                                          | -                                                       |   4.08 kB | 
+spec-shared-i18n-services-translation.service.js           | spec-shared-i18n-services-translation.service           |   3.66 kB | 
+spec-shared-storage-storage.service.js                     | spec-shared-storage-storage.service                     |   3.62 kB | 
+spec-components-filter-filter.js                           | spec-components-filter-filter                           |   3.00 kB | 
+spec-app-app.js                                            | spec-app-app                                            |   2.75 kB | 
+spec-shared-theme-theme.service.js                         | spec-shared-theme-theme.service                         |   2.67 kB | 
+chunk-4B3XJQJR.js                                          | -                                                       |   2.42 kB | 
+spec-components-header-header.js                           | spec-components-header-header                           |   2.17 kB | 
+spec-components-confirm-dialog-confirm-dialog.js           | spec-components-confirm-dialog-confirm-dialog           |   1.97 kB | 
+chunk-IZZDIZK4.js                                          | -                                                       |   1.92 kB | 
+init-testbed.js                                            | init-testbed                                            |   1.21 kB | 
+chunk-RNDL35I5.js                                          | -                                                       |   1.02 kB | 
+vitest-mock-patch.js                                       | vitest-mock-patch                                       | 969 bytes | 
+chunk-TAKZIOTH.js                                          | -                                                       | 885 bytes | 
+
+                                                           | Initial total                                           | 132.15 kB
+
+Application bundle generation complete. [1.035 seconds] - 2026-05-04T08:00:55.466Z
+
+
+ RUN  v4.1.5 /Users/pmarzoa/dev/one-test/angular-test
+      Coverage enabled with v8
+
+ ✓ |angular-test| src/shared/i18n/services/translation.service.spec.ts (9 tests) 47ms
+ ✓ |angular-test| src/shared/rest/todos-rest.service.spec.ts (13 tests) 55ms
+ ✓ |angular-test| src/shared/theme/theme.service.spec.ts (7 tests) 32ms
+stderr | src/shared/storage/storage.service.spec.ts > StorageService > Error Handling > should handle invalid JSON in decoded storage
+Error reading from LocalStorage SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)
+    at JSON.parse (<anonymous>)
+    at _StorageService.getLocal (/Users/pmarzoa/dev/one-test/angular-test/src/shared/storage/storage.service.ts:29:19)
+    at /Users/pmarzoa/dev/one-test/angular-test/src/shared/storage/storage.service.spec.ts:115:30
+    at file:///Users/pmarzoa/dev/one-test/angular-test/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///Users/pmarzoa/dev/one-test/angular-test/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///Users/pmarzoa/dev/one-test/angular-test/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///Users/pmarzoa/dev/one-test/angular-test/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///Users/pmarzoa/dev/one-test/angular-test/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+
+ ✓ |angular-test| src/shared/storage/storage.service.spec.ts (10 tests) 29ms
+ ✓ |angular-test| src/shared/i18n/services/custom-paginator-intl.service.spec.ts (5 tests) 20ms
+ ✓ |angular-test| src/components/confirm-dialog/confirm-dialog.spec.ts (4 tests) 399ms
+ ✓ |angular-test| src/components/header/header.spec.ts (3 tests) 378ms
+ ✓ |angular-test| src/app/app.spec.ts (2 tests) 350ms
+ ✓ |angular-test| src/components/filter/filter.spec.ts (8 tests) 666ms
+ ✓ |angular-test| src/views/add/add.spec.ts (3 tests) 479ms
+     ✓ should create  347ms
+ ✓ |angular-test| src/views/edit/edit.spec.ts (5 tests) 488ms
+     ✓ should create and populate model if state is provided  377ms
+ ✓ |angular-test| src/views/dashboard/dashboard.spec.ts (11 tests) 827ms
+     ✓ should create  312ms
+
+ Test Files  12 passed (12)
+      Tests  80 passed (80)
+   Start at  10:00:55
+   Duration  2.43s (transform 326ms, setup 2.43s, import 3.24s, tests 3.77s, environment 6.19s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   91.09 |    88.38 |   81.55 |   94.83 |                   
+ app               |     100 |      100 |     100 |     100 |                   
+  app.html         |     100 |      100 |     100 |     100 |                   
+  app.ts           |     100 |      100 |     100 |     100 |                   
+ ...confirm-dialog |      92 |    85.71 |      60 |     100 |                   
+  ...irm-dialog.ts |      92 |    85.71 |      60 |     100 | 23-26             
+ components/filter |    93.1 |    78.57 |   85.71 |    92.3 |                   
+  filter.html      |     100 |      100 |     100 |     100 |                   
+  filter.ts        |   89.18 |    78.57 |   85.71 |   88.88 | 56-58             
+ components/header |   88.88 |    93.75 |     100 |   86.95 |                   
+  header.html      |   84.61 |    83.33 |     100 |   82.35 | 6-8               
+  header.ts        |     100 |      100 |     100 |     100 |                   
+ environments      |     100 |      100 |     100 |     100 |                   
+  ...evelopment.ts |     100 |      100 |     100 |     100 |                   
+ shared/i18n       |     100 |      100 |     100 |     100 |                   
+  ...tion.types.ts |     100 |      100 |     100 |     100 |                   
+ shared/i18n/pipes |     100 |      100 |     100 |     100 |                   
+  ...slate.pipe.ts |     100 |      100 |     100 |     100 |                   
+ .../i18n/services |   90.41 |    85.41 |    90.9 |   93.44 |                   
+  ...tl.service.ts |     100 |     92.3 |     100 |     100 | 32                
+  ...on.service.ts |   86.53 |    82.85 |    87.5 |   90.69 | 72,87,93,96       
+ shared/network    |   77.77 |      100 |   33.33 |     100 |                   
+  ...ne.service.ts |   77.77 |      100 |   33.33 |     100 |                   
+ shared/rest       |     100 |      100 |     100 |     100 |                   
+  ...st.service.ts |     100 |      100 |     100 |     100 |                   
+ shared/storage    |   94.73 |       80 |     100 |   96.96 |                   
+  ...ge.service.ts |   94.73 |       80 |     100 |   96.96 | 26                
+ shared/theme      |   95.83 |    94.44 |     100 |     100 |                   
+  theme.service.ts |   95.83 |    94.44 |     100 |     100 | 39                
+ views/add         |   84.72 |    78.26 |   54.54 |   88.46 |                   
+  add.html         |   83.33 |    66.66 |       0 |   90.62 | 23-24,47          
+  add.ts           |    87.5 |    85.71 |   66.66 |      85 | 56-58             
+ views/dashboard   |   91.95 |       90 |   76.19 |   98.33 |                   
+  dashboard.html   |   87.93 |       75 |       0 |   97.14 | 45                
+  dashboard.ts     |     100 |      100 |     100 |     100 |                   
+ views/edit        |    87.2 |     90.9 |   77.77 |   93.75 |                   
+  edit.html        |   81.48 |    84.61 |       0 |   89.18 | 28-29,46,52       
+  edit.ts          |   96.87 |       95 |     100 |     100 | 82                
+-------------------|---------|----------|---------|---------|-------------------
