@@ -1,3 +1,4 @@
+
 # Stage 1: Build Angular app
 FROM node:20-alpine AS builder
  
@@ -24,8 +25,11 @@ RUN rm -rf node_modules
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
  
+# Remove default nginx files
+RUN rm -rf /usr/share/nginx/html/*
+ 
 # Copy built app from builder stage
-COPY --from=builder /app/dist/angular-test /usr/share/nginx/html
+COPY --from=builder /app/dist/angular-test /usr/share/nginx/html/
  
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
