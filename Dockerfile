@@ -15,7 +15,7 @@ COPY . .
 # Build for production
 RUN npm run build -- --configuration production
 
-# Clean up node_modules to reduce layer size
+# Clean up node_modules to reduce size
 RUN rm -rf node_modules
 
 # Stage 2: Serve with Nginx
