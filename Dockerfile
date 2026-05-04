@@ -1,5 +1,5 @@
 # Stage 1: Build Angular app
-FROM node:18-alpine as builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -13,7 +13,10 @@ RUN npm ci
 COPY . .
 
 # Build for production
-RUN npm run build
+RUN npm run build -- --configuration production
+
+# Clean up node_modules to reduce layer size
+RUN rm -rf node_modules
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
