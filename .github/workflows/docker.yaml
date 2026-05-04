@@ -11,6 +11,7 @@ on:
       - 'Dockerfile'
       - 'nginx.conf'
       - 'docker-compose.yaml'
+      - '.github/workflows/docker.yaml'
   workflow_dispatch:
 
 jobs:
