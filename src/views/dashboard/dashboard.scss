@@ -4,6 +4,25 @@
   align-items: center;
   gap: 16px;
   padding: 16px 0;
+
+  @media (max-width: 600px) {
+    padding: 8px 0;
+    gap: 8px;
+  }
+}
+
+.add-todo-btn {
+  @media (max-width: 600px) {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+
+    mat-icon {
+      width: 24px;
+      height: 24px;
+      font-size: 24px;
+    }
+  }
 }
 
 .odd-row {

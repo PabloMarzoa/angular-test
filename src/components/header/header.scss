@@ -1,5 +1,9 @@
 .header {
-  box-shadow: 0px 0 5px -0 #757575;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--mat-sys-surface);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .layout-header {
